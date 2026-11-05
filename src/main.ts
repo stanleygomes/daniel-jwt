@@ -20,9 +20,9 @@ const SAMPLE: Draft = {
   key: 'mene-mene-tequel-ufarsim',
 };
 
+setupTheme(); // antes de tudo: a página só aparece com o tema definido
 boot(__VERSION__);
 mountIcons();
-setupTheme();
 watchNetwork();
 showBuild();
 setupTabs();

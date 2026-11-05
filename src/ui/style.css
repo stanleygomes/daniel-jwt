@@ -30,6 +30,8 @@
 /* Sem escolha salva, segue o sistema; o botão (theme.ts) fixa um dos dois. */
 :root[data-theme='light'] { color-scheme: light; }
 :root[data-theme='dark'] { color-scheme: dark; }
+/* Esconde até o theme.ts definir o tema (sem piscar). Sem JS, aparece em 1,5s. */
+:root:not([data-theme]) body { visibility: hidden; animation: reveal 0s 1.5s forwards; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -449,9 +451,11 @@ footer p { margin: 4px 0; }
   100% { transform: scale(0, 0.004); filter: brightness(6); opacity: 0; }
 }
 @keyframes boot-timeout { to { visibility: hidden; } }
+@keyframes reveal { to { visibility: visible; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  :root:not([data-theme]) body { visibility: visible; }
   .boot { display: none; }
 }
 
