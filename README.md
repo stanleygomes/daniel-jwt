@@ -63,8 +63,9 @@ Node 24+.
 ```bash
 npm install
 npm run dev       # desenvolvimento
-npm test          # testes (node --test, TypeScript direto)
-npm run lint      # Biome (lint + formatação)
+npm test          # testes unitários (node --test, TypeScript direto)
+npm run test:e2e  # site real no Chromium, Firefox e WebKit (Playwright)
+npm run lint      # Biome: lint + formatação (papel do ESLint + Prettier)
 npm run build     # tsc + vite build → dist/
 npm run preview   # serve o dist/ com a mesma CSP da produção
 ```

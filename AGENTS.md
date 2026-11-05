@@ -29,9 +29,10 @@ src/ui/                 # tela
 public/logo.jpg         # logo (também favicon)
 public/og.jpg           # preview de link (1200×630); URL absoluta no <head> do index.html
 docs/screenshot.jpg     # print da tela no README
-test/*.test.ts          # node --test (chaves reais do openssl em test/fixtures/)
+test/*.test.ts          # unitários: node --test (chaves reais do openssl em test/fixtures/)
+e2e/*.spec.ts           # site real no Chromium, Firefox e WebKit (Playwright + vite preview)
 vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
-.github/workflows/      # ci.yml (teste + build) e release.yml (tag v* → release)
+.github/workflows/      # ci.yml (checks do PR: lint, tipos, unit, e2e) e release.yml (tag v*)
 .github/dependabot.yml  # PR semanal agrupado: npm e SHAs das actions
 ```
 
@@ -48,11 +49,15 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 - TypeScript só com sintaxe apagável (`erasableSyntaxOnly`): os testes rodam o `.ts` direto no Node.
 - Imports relativos com extensão `.ts`.
 - Algoritmo novo: entrada em `ALGS` + teste de ida e volta em `test/jwt.test.ts`.
+- Mudou a tela? Teste em `e2e/` (o CI roda nos três navegadores; Trusted Types e clipboard
+  só no Chromium).
+- Lint e formatação: Biome (faz o papel do ESLint + Prettier). `npm run format` corrige.
 
 ## Comandos
 
 ```bash
-npm run lint && npm run build && npm test   # obrigatório antes de commitar
+npm run lint && npx tsc && npm test         # obrigatório antes de commitar
+npm run test:e2e                            # navegador (1ª vez: npx playwright install --with-deps)
 npm run format              # corrige formatação e imports (Biome)
 npm run preview             # confira a tela com a CSP de produção
 ```
