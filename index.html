@@ -4,20 +4,44 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#06060c">
   <title>Daniel · decifrador de JWT</title>
   <meta name="description" content="Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquina.">
   <link rel="icon" href="/logo.jpg">
   <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
+  <div id="boot" class="boot" aria-hidden="true">
+    <pre id="boot-log"></pre>
+    <p class="boot-skip">[ clique ou tecle para pular ]</p>
+  </div>
+  <canvas id="rain" class="rain" aria-hidden="true"></canvas>
+  <div class="floor" aria-hidden="true"></div>
+  <div id="verdict" class="verdict" aria-hidden="true"></div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>// uplink offline // connect-src 'none' // 0 rastreadores // webcrypto local // mene mene tequel ufarsim // os teus presentes fiquem contigo </span>
+      <span>// uplink offline // connect-src 'none' // 0 rastreadores // webcrypto local // mene mene tequel ufarsim // os teus presentes fiquem contigo </span>
+    </div>
+  </div>
+
   <header class="masthead">
-    <img src="/logo.jpg" alt="Logo do Daniel: mão escrevendo na parede e uma balança" width="112" height="112">
-    <div>
-      <h1>Daniel</h1>
-      <p class="motto">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
+    <span class="logo-ring"><img class="logo" src="/logo.jpg" alt="Logo do Daniel" width="104" height="104"></span>
+    <div class="title">
+      <p class="kicker">sys://daniel — decifrador de jwt</p>
+      <h1 class="glitch" data-text="DANIEL">DANIEL</h1>
+      <p id="motto" class="motto">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
     </div>
     <button id="theme" class="theme" type="button"></button>
   </header>
+
+  <div class="hud">
+    <span class="hud-live"><i class="dot"></i>uplink offline</span>
+    <span>pacotes para fora <strong id="t-requests">0</strong></span>
+    <span>bloqueios da CSP <strong id="t-blocked">0</strong></span>
+    <span>cripto <strong>webcrypto · local</strong></span>
+  </div>
 
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="decode" aria-selected="true"><span data-icon="decode"></span>Decifrar</button>
@@ -34,7 +58,7 @@
         <textarea id="d-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
         <p id="d-status" class="status" role="status"></p>
       </div>
-      <div class="col">
+      <div class="col" data-tilt>
         <h2 class="part-0">Cabeçalho</h2>
         <pre id="d-header"></pre>
         <h2 class="part-1">Conteúdo</h2>
@@ -52,7 +76,7 @@
         <label for="e-key" id="e-key-label">Segredo</label>
         <textarea id="e-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
       </div>
-      <div class="col">
+      <div class="col" data-tilt>
         <h2>Token</h2>
         <output id="e-token" for="e-header e-payload e-key"></output>
         <p id="e-error" class="error" role="alert"></p>
@@ -61,17 +85,17 @@
     </section>
   </main>
 
-  <aside class="ledger" aria-labelledby="ledger-title">
+  <aside class="ledger" aria-labelledby="ledger-title" data-tilt>
     <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
     <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
     <ul>
       <li>Tudo roda no seu navegador, com a WebCrypto nativa. Sem servidor, API, cookie, analytics ou dependência em produção.</li>
       <li>A política de segurança (CSP) proíbe qualquer conexão: <code>connect-src 'none'</code>.</li>
-      <li>Requisições para fora: <strong id="t-requests">0</strong> · Bloqueadas pela CSP: <strong id="t-blocked">0</strong></li>
+      <li>O painel no topo mede, ao vivo, os pacotes enviados para fora e os bloqueios da CSP.</li>
       <li>Leia antes de colar seu token:
         <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/jwt">src/jwt</a> (criptografia, ~150 linhas) e
-        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/ui">src/ui</a> (tela).
-        O build (Vite) só converte TypeScript em JavaScript; as fontes vêm do próprio site.
+        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/ui">src/ui</a> (tela e efeitos).
+        O build (Vite) só converte TypeScript em JavaScript; fontes e ícones vêm do próprio site.
       </li>
       <li>Nem assim confia? Abra o DevTools na aba Network, ou baixe o repositório e rode offline.</li>
     </ul>
@@ -79,7 +103,7 @@
   </aside>
 
   <footer>
-    <span>— · ✦ · —</span>
+    <p class="eol">◢◤ end of line ◢◤</p>
     <p>HS, RS, PS, ES e EdDSA. Código aberto, licença MIT.</p>
     <p><a id="build" href="https://github.com/stanleygomes/daniel-jwt/releases"></a></p>
   </footer>

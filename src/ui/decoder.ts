@@ -3,6 +3,8 @@
 import { decode, verify, type Decoded } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
+import { decrypt } from './fx/text.ts';
+import { flashVerdict } from './fx/verdict.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
@@ -20,14 +22,19 @@ async function verdict(token: string, alg: string | undefined, key: string): Pro
   }
 }
 
+// Só pisca o veredito quando ele muda, e nunca no carregamento.
+let lastKind: Status[0] | null = null;
+
 function setStatus([kind, text]: Status): void {
+  if (kind && lastKind !== null && kind !== lastKind) flashVerdict(kind);
+  lastKind = kind;
   $('d-status').className = `status ${kind}`;
   $('d-status').replaceChildren(...(kind ? [icon(kind === 'ok' ? 'valid' : 'invalid', 20)] : []), text);
 }
 
 function render(jwt: Decoded | null): void {
-  $('d-header').textContent = jwt ? pretty(jwt.header) : '';
-  $('d-payload').textContent = jwt ? pretty(jwt.payload) : '';
+  decrypt($('d-header'), jwt ? pretty(jwt.header) : '');
+  decrypt($('d-payload'), jwt ? pretty(jwt.payload) : '');
   $('d-claims').replaceChildren(
     ...describeClaims(jwt?.payload ?? {}).flatMap(({ label, text }) => [el('dt', label), el('dd', text)]),
   );

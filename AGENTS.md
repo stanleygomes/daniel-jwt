@@ -19,6 +19,8 @@ src/ui/                 # tela
   tabs.ts               #   troca de aba
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
   icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
+  fx/                   #   efeitos cyberpunk: boot, chuva, glitch de texto, tilt, veredito
+                        #   (todos respeitam prefers-reduced-motion)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
   style.css             #   visual retrô, claro e escuro
