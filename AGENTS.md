@@ -24,6 +24,7 @@ src/ui/                 # tela
 public/logo.jpg         # logo (também favicon)
 test/*.test.ts          # node --test
 vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
+.github/workflows/      # ci.yml (teste + build) e release.yml (tag v* → release)
 ```
 
 ## Regras
@@ -44,5 +45,11 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 npm run build && npm test   # obrigatório antes de commitar
 npm run preview             # confira a tela com a CSP de produção
 ```
+
+## Release
+
+`npm version <patch|minor|major>` + `git push --follow-tags`. O `.npmrc` define a mensagem
+(`chore: lança vX.Y.Z`); o `release.yml` recusa tag diferente da versão do `package.json`.
+Actions fixadas por SHA (com a versão em comentário): ao atualizar, troque os dois.
 
 Commits: Conventional Commits em português.
