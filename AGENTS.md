@@ -18,6 +18,7 @@ src/ui/                 # tela
   decoder.ts encoder.ts #   abas Decifrar e Selar
   tabs.ts               #   troca de aba
   transparency.ts       #   contador de rede e de bloqueios da CSP
+  fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
   style.css             #   visual retrô, claro e escuro
 public/logo.jpg         # logo (também favicon)
 test/*.test.ts          # node --test
@@ -28,6 +29,8 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 
 - **Nada de rede.** Nenhum `fetch`, CDN, analytics ou recurso externo. A CSP
   `connect-src 'none'` é a promessa do projeto: não afrouxe.
+- **Fonte nova:** pacote `@fontsource/*` importado em `src/ui/fonts.ts`. Nunca link do
+  `fonts.googleapis.com` (seria requisição para fora).
 - **Dependência só de build.** O JS gerado não importa nada de terceiros.
 - `src/jwt/` não toca no DOM; `src/ui/` não faz criptografia.
 - TypeScript só com sintaxe apagável (`erasableSyntaxOnly`): os testes rodam o `.ts` direto no Node.

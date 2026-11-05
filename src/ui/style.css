@@ -8,8 +8,9 @@
   --part-0: #6e1f34;
   --part-1: #5b4a8b;
   --part-2: #2c5f6f;
-  --serif: Georgia, 'Times New Roman', serif;
-  --mono: 'Courier New', Courier, monospace;
+  --display: 'Bungee', Impact, sans-serif;
+  --serif: 'Old Standard TT', Georgia, serif;
+  --mono: 'Courier Prime', 'Courier New', monospace;
   color-scheme: light dark;
 }
 
@@ -36,7 +37,7 @@ body {
   padding: 24px 16px 48px;
   background: var(--paper);
   color: var(--ink);
-  font: 17px/1.5 var(--serif);
+  font: 18px/1.5 var(--serif);
 }
 
 a { color: var(--accent); }
@@ -53,18 +54,15 @@ code, pre, textarea, output { font-family: var(--mono); font-size: 14px; }
 .masthead img { border-radius: 50%; flex-shrink: 0; }
 h1 {
   margin: 0;
-  font-size: clamp(36px, 8vw, 64px);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font: 400 clamp(36px, 8vw, 64px) / 1.1 var(--display);
+  letter-spacing: 0.06em;
 }
 .motto { margin: 0; font-style: italic; color: var(--accent); }
 
-h2 {
+h2, label {
   margin: 18px 0 6px;
-  font-size: 14px;
-  font-variant: small-caps;
-  letter-spacing: 0.1em;
-  text-transform: lowercase;
+  font: 400 13px var(--display);
+  letter-spacing: 0.08em;
 }
 
 .ledger {
@@ -75,7 +73,7 @@ h2 {
   outline-offset: 3px;
   background: var(--card);
 }
-.ledger h2 { margin-top: 0; font-size: 18px; color: var(--accent); }
+.ledger h2 { margin-top: 0; font-size: 17px; letter-spacing: 0.02em; color: var(--accent); }
 .ledger ul { margin: 8px 0; padding-left: 20px; }
 .ledger li { margin: 4px 0; }
 .verse { margin: 0; font-style: italic; color: var(--muted); }
@@ -87,16 +85,17 @@ button {
   border: 1px solid var(--ink);
   background: var(--card);
   color: var(--ink);
-  font: inherit;
+  font: 400 14px var(--display);
+  letter-spacing: 0.06em;
   cursor: pointer;
 }
 [role='tab'] { margin-bottom: -1px; border-bottom: none; }
-[role='tab'][aria-selected='true'] { background: var(--paper); font-weight: bold; }
+[role='tab'][aria-selected='true'] { background: var(--paper); color: var(--accent); }
 [role='tab'][aria-selected='false'] { color: var(--muted); }
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding-top: 16px; }
 .col { min-width: 0; display: flex; flex-direction: column; }
-label { margin: 14px 0 6px; font-variant: small-caps; letter-spacing: 0.1em; }
+label { margin-top: 14px; }
 label:first-child { margin-top: 0; }
 
 textarea, pre, output {

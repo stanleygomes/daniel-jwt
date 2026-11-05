@@ -12,7 +12,7 @@ Não confie: confira. A criptografia inteira cabe em [`src/jwt/`](src/jwt) (~150
 
 - **Sem rede.** A CSP de [`vercel.json`](vercel.json) tem `connect-src 'none'`: o navegador não envia nada.
 - **Sem servidor.** Assinatura e verificação usam a WebCrypto nativa.
-- **Sem rastreio.** Nada de cookie, analytics, CDN ou script de terceiros.
+- **Sem rastreio.** Nada de cookie, analytics, CDN ou script de terceiros. As fontes (Bungee, Old Standard TT, Courier Prime) são servidas pelo próprio site.
 - **Ao vivo.** A tela conta as requisições para fora e os bloqueios da CSP. Ou abra o DevTools.
 
 ## Funciona com

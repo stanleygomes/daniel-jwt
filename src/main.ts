@@ -1,5 +1,6 @@
 // Entrada: estilos + monta as telas com o exemplo inicial.
 
+import './ui/fonts.ts';
 import './ui/style.css';
 import { setupDecoder } from './ui/decoder.ts';
 import { setupEncoder, type Draft } from './ui/encoder.ts';
