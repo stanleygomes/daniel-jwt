@@ -1,0 +1,43 @@
+name: release
+
+# Dispara com uma tag vX.Y.Z (criada pelo `npm version`).
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # criar a release
+  id-token: write # assinar a atestação
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Tag igual à versão do package.json
+        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+      - name: Empacota o site
+        run: |
+          (cd dist && zip -qr "../daniel-jwt-$GITHUB_REF_NAME.zip" .)
+          sha256sum daniel-jwt-*.zip > SHA256SUMS
+
+      # Prova assinada de que o zip saiu deste commit, por este workflow.
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: daniel-jwt-*.zip
+
+      - name: Publica a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" daniel-jwt-*.zip SHA256SUMS --verify-tag --generate-notes

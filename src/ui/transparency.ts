@@ -13,3 +13,12 @@ export function watchNetwork(): void {
     $('t-blocked').textContent = String(++blocked);
   });
 }
+
+// Rodapé: versão e commit deste build, com link para o código exato.
+export function showBuild(): void {
+  const link = $<HTMLAnchorElement>('build');
+  link.textContent = `v${__VERSION__} · commit ${__COMMIT__.slice(0, 7)}`;
+  if (__COMMIT__ !== 'dev') {
+    link.href = `https://github.com/stanleygomes/daniel-jwt/tree/${__COMMIT__}`;
+  }
+}
