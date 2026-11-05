@@ -8,9 +8,7 @@ Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquin
 
 ## Transparência
 
-> "Os teus presentes fiquem contigo." Este site lê seu token e não leva nada.
-
-Não confie: confira. Tudo o que está abaixo dá para checar sem acreditar em ninguém.
+Este site lê seu token e não leva nada. Não confie: confira. Tudo o que está abaixo dá para checar sem acreditar em ninguém.
 
 ### O que o site promete
 
