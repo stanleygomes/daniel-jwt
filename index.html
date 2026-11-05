@@ -19,23 +19,6 @@
     <button id="theme" class="theme" type="button"></button>
   </header>
 
-  <aside class="ledger" aria-labelledby="ledger-title">
-    <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
-    <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
-    <ul>
-      <li>Tudo roda no seu navegador, com a WebCrypto nativa. Sem servidor, API, cookie, analytics ou dependência em produção.</li>
-      <li>A política de segurança (CSP) proíbe qualquer conexão: <code>connect-src 'none'</code>.</li>
-      <li>Requisições para fora: <strong id="t-requests">0</strong> · Bloqueadas pela CSP: <strong id="t-blocked">0</strong></li>
-      <li>Leia antes de colar seu token:
-        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/jwt">src/jwt</a> (criptografia, ~150 linhas) e
-        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/ui">src/ui</a> (tela).
-        O build (Vite) só converte TypeScript em JavaScript; as fontes vêm do próprio site.
-      </li>
-      <li>Nem assim confia? Abra o DevTools na aba Network, ou baixe o repositório e rode offline.</li>
-    </ul>
-    <a class="repo" href="https://github.com/stanleygomes/daniel-jwt">Leia o código no GitHub →</a>
-  </aside>
-
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="decode" aria-selected="true">Decifrar</button>
     <button role="tab" data-tab="encode" aria-selected="false">Selar</button>
@@ -77,6 +60,23 @@
       </div>
     </section>
   </main>
+
+  <aside class="ledger" aria-labelledby="ledger-title">
+    <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
+    <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
+    <ul>
+      <li>Tudo roda no seu navegador, com a WebCrypto nativa. Sem servidor, API, cookie, analytics ou dependência em produção.</li>
+      <li>A política de segurança (CSP) proíbe qualquer conexão: <code>connect-src 'none'</code>.</li>
+      <li>Requisições para fora: <strong id="t-requests">0</strong> · Bloqueadas pela CSP: <strong id="t-blocked">0</strong></li>
+      <li>Leia antes de colar seu token:
+        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/jwt">src/jwt</a> (criptografia, ~150 linhas) e
+        <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/ui">src/ui</a> (tela).
+        O build (Vite) só converte TypeScript em JavaScript; as fontes vêm do próprio site.
+      </li>
+      <li>Nem assim confia? Abra o DevTools na aba Network, ou baixe o repositório e rode offline.</li>
+    </ul>
+    <a class="repo" href="https://github.com/stanleygomes/daniel-jwt">Leia o código no GitHub →</a>
+  </aside>
 
   <footer>
     <span>— · ✦ · —</span>
