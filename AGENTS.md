@@ -32,6 +32,7 @@ docs/screenshot.jpg     # print da tela no README
 test/*.test.ts          # node --test (chaves reais do openssl em test/fixtures/)
 vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
 .github/workflows/      # ci.yml (teste + build) e release.yml (tag v* → release)
+.github/dependabot.yml  # PR semanal agrupado: npm e SHAs das actions
 ```
 
 ## Regras
