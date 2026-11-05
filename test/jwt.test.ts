@@ -70,9 +70,3 @@ test('chave privada em JWK também verifica', async () => {
   const token = await sign({ alg: 'ES256' }, { sub: 'x' }, privateJwk);
   assert.equal(await verify(token, privateJwk), true);
 });
-
-test('PEM PKCS#1 dá erro claro', async () => {
-  const pem = '-----BEGIN RSA PUBLIC KEY-----\nAAAA\n-----END RSA PUBLIC KEY-----';
-  const token = `${b64urlEncode('{"alg":"RS256"}')}.e30.AAAA`;
-  await assert.rejects(verify(token, pem), /PKCS#1/);
-});

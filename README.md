@@ -38,12 +38,22 @@ Este site lê seu token e não leva nada. Não confie: confira. Tudo o que está
 
 ## Funciona com
 
-| Família | Algoritmos | Chave |
-| --- | --- | --- |
-| HMAC | HS256, HS384, HS512 | segredo |
-| RSA | RS256…512, PS256…512 | PEM (PKCS#8/SPKI) ou JWK |
-| ECDSA | ES256, ES384, ES512 | PEM (PKCS#8/SPKI) ou JWK |
-| EdDSA | Ed25519 | PEM (PKCS#8/SPKI) ou JWK |
+| Família | Algoritmos |
+| --- | --- |
+| HMAC | HS256, HS384, HS512 |
+| RSA | RS256…512, PS256…512 |
+| ECDSA | ES256, ES384, ES512 |
+| EdDSA | Ed25519 |
+
+Chaves aceitas:
+
+- **Segredo** (HMAC), em texto ou base64.
+- **PEM**: `PUBLIC KEY`, `PRIVATE KEY`, `RSA PUBLIC/PRIVATE KEY` (PKCS#1), `EC PRIVATE KEY` (SEC1).
+- **Certificado X.509** (`BEGIN CERTIFICATE`): usa a chave pública de dentro.
+- **JWK** e **JWKS** colado (`{"keys": [...]}`): escolhe a chave pelo `kid` do token.
+- Para verificar, a chave privada também serve: a pública é derivada dela.
+
+Buscar JWKS por URL fica de fora de propósito: o site não faz requisição nenhuma.
 
 ## Rodar
 
