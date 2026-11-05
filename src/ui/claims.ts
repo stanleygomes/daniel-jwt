@@ -15,7 +15,7 @@ const CLAIMS: Record<string, string> = {
 };
 const TIME_CLAIMS = new Set(['exp', 'nbf', 'iat']);
 
-function describe(name: string, value: unknown, now: number): string {
+function claimText(name: string, value: unknown, now: number): string {
   if (!TIME_CLAIMS.has(name) || typeof value !== 'number') {
     return typeof value === 'object' ? JSON.stringify(value) : String(value);
   }
@@ -30,6 +30,6 @@ export function describeClaims(payload: Json, now = Date.now() / 1000): Claim[] 
     .filter(([name]) => name in CLAIMS)
     .map(([name, value]) => ({
       label: `${name} · ${CLAIMS[name]}`,
-      text: describe(name, value, now),
+      text: claimText(name, value, now),
     }));
 }
