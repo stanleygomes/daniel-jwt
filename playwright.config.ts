@@ -12,6 +12,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173',
     reducedMotion: 'reduce', // sem boot nem animação; os testes de efeito ligam de volta
+    locale: 'pt-BR',
+    timezoneId: 'America/Sao_Paulo', // datas das claims iguais aqui e no CI (UTC)
     trace: 'retain-on-failure',
   },
   webServer: {
