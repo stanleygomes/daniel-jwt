@@ -52,7 +52,7 @@ function pickJwk(json: { keys?: JsonWebKey[] } & JsonWebKey, kid?: string): Json
 function publicJwk(jwk: JsonWebKey): JsonWebKey {
   const copy = { ...jwk };
   delete copy.key_ops;
-  PRIVATE_JWK_FIELDS.forEach((field) => delete copy[field]);
+  for (const field of PRIVATE_JWK_FIELDS) delete copy[field];
   return copy;
 }
 

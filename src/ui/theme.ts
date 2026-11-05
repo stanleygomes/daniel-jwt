@@ -1,7 +1,7 @@
 // Botão de tema: alterna claro/escuro e lembra a escolha neste navegador.
 
 import { $ } from './dom.ts';
-import { icon, type IconName } from './icons.ts';
+import { type IconName, icon } from './icons.ts';
 
 type Theme = 'light' | 'dark';
 

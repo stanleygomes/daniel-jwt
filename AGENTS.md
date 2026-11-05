@@ -52,7 +52,8 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 ## Comandos
 
 ```bash
-npm run build && npm test   # obrigatório antes de commitar
+npm run lint && npm run build && npm test   # obrigatório antes de commitar
+npm run format              # corrige formatação e imports (Biome)
 npm run preview             # confira a tela com a CSP de produção
 ```
 

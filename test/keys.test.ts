@@ -5,8 +5,7 @@ import { b64urlEncode } from '../src/jwt/base64url.ts';
 import { sign, verify } from '../src/jwt/token.ts';
 
 // Chaves e certificados reais, gerados pelo openssl (ver test/fixtures/README.md).
-const fixture = (name: string): string =>
-  readFileSync(new URL(`fixtures/${name}`, import.meta.url), 'utf8');
+const fixture = (name: string): string => readFileSync(new URL(`fixtures/${name}`, import.meta.url), 'utf8');
 
 const payload = { sub: 'daniel' };
 
@@ -46,10 +45,15 @@ test('chave privada com senha dá erro claro', async () => {
 
 test('JWKS: escolhe a chave pelo kid do token', async () => {
   const pairs = await Promise.all(
-    ['a', 'b'].map(() => crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify'])),
+    ['a', 'b'].map(() =>
+      crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']),
+    ),
   );
   const keys = await Promise.all(
-    pairs.map(async (pair, i) => ({ ...(await crypto.subtle.exportKey('jwk', pair.publicKey)), kid: `k${i}` })),
+    pairs.map(async (pair, i) => ({
+      ...(await crypto.subtle.exportKey('jwk', pair.publicKey)),
+      kid: `k${i}`,
+    })),
   );
   const jwks = JSON.stringify({ keys });
   const privateJwk = JSON.stringify(await crypto.subtle.exportKey('jwk', pairs[1].privateKey));

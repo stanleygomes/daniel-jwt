@@ -64,6 +64,7 @@ Node 24+.
 npm install
 npm run dev       # desenvolvimento
 npm test          # testes (node --test, TypeScript direto)
+npm run lint      # Biome (lint + formatação)
 npm run build     # tsc + vite build → dist/
 npm run preview   # serve o dist/ com a mesma CSP da produção
 ```

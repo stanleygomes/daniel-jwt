@@ -1,7 +1,6 @@
 // Atalhos de DOM usados pelas telas.
 
-export const $ = <T extends HTMLElement = HTMLElement>(id: string): T =>
-  document.getElementById(id) as T;
+export const $ = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 
 export const field = (id: string): HTMLTextAreaElement => $<HTMLTextAreaElement>(id);
 

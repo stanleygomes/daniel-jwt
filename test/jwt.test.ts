@@ -12,7 +12,12 @@ const toPem = (label: string, der: ArrayBuffer): string =>
   `-----BEGIN ${label} KEY-----\n${btoa(String.fromCharCode(...new Uint8Array(der)))}\n-----END ${label} KEY-----`;
 
 const ASYMMETRIC: Record<string, RsaHashedKeyGenParams | EcKeyGenParams | Algorithm> = {
-  RS256: { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
+  RS256: {
+    name: 'RSASSA-PKCS1-v1_5',
+    modulusLength: 2048,
+    publicExponent: new Uint8Array([1, 0, 1]),
+    hash: 'SHA-256',
+  },
   PS384: { name: 'RSA-PSS', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-384' },
   ES256: { name: 'ECDSA', namedCurve: 'P-256' },
   ES512: { name: 'ECDSA', namedCurve: 'P-521' },
@@ -65,7 +70,10 @@ for (const [alg, params] of Object.entries(ASYMMETRIC)) {
 }
 
 test('chave privada em JWK também verifica', async () => {
-  const pair = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+  const pair = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, [
+    'sign',
+    'verify',
+  ]);
   const privateJwk = JSON.stringify(await crypto.subtle.exportKey('jwk', pair.privateKey));
   const token = await sign({ alg: 'ES256' }, { sub: 'x' }, privateJwk);
   assert.equal(await verify(token, privateJwk), true);

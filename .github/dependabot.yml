@@ -7,7 +7,7 @@ updates:
       interval: weekly
     groups:
       npm:
-        patterns: ['*']
+        patterns: ["*"]
     commit-message:
       prefix: build
 
@@ -17,6 +17,6 @@ updates:
       interval: weekly
     groups:
       actions:
-        patterns: ['*']
+        patterns: ["*"]
     commit-message:
       prefix: ci

@@ -3,7 +3,7 @@ name: release
 # Dispara com uma tag vX.Y.Z (criada pelo `npm version`).
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 permissions:
   contents: write # criar a release

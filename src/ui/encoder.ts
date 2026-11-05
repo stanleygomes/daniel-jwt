@@ -2,7 +2,7 @@
 
 import { isHmac } from '../jwt/algorithms.ts';
 import { generateKey } from '../jwt/generate.ts';
-import { sign, type Header, type Json } from '../jwt/token.ts';
+import { type Header, type Json, sign } from '../jwt/token.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';

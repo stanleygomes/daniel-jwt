@@ -1,7 +1,7 @@
 // Aba "Decifrar": token + chave → cabeçalho, conteúdo, claims e veredito.
 
 import { isHmac } from '../jwt/algorithms.ts';
-import { decode, verify, type Decoded } from '../jwt/token.ts';
+import { type Decoded, decode, verify } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { decrypt } from './fx/text.ts';
@@ -11,7 +11,12 @@ import { keyLabel } from './keyLabel.ts';
 
 type Status = [kind: '' | 'ok' | 'bad', text: string];
 
-async function verdict(token: string, alg: string | undefined, key: string, base64Secret: boolean): Promise<Status> {
+async function verdict(
+  token: string,
+  alg: string | undefined,
+  key: string,
+  base64Secret: boolean,
+): Promise<Status> {
   if (alg === 'none') return ['bad', 'alg "none": token sem assinatura. Não confie nele.'];
   if (!key) return ['', 'Informe a chave para verificar a assinatura.'];
   try {
