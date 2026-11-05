@@ -1,0 +1,76 @@
+import { readFileSync } from 'node:fs';
+import { expect, test } from '@playwright/test';
+import { openApp } from './helpers.ts';
+
+const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
+test('abas trocam a seção e o aria-selected', async ({ page }) => {
+  await openApp(page);
+  const encode = page.getByRole('tab', { name: 'Selar' });
+  await encode.click();
+  await expect(encode).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('#encode')).toBeVisible();
+  await expect(page.locator('#decode')).toBeHidden();
+});
+
+test('tema segue o sistema e lembra a escolha', async ({ browser }) => {
+  const context = await browser.newContext({ colorScheme: 'light', reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await openApp(page);
+  const theme = () => page.evaluate(() => document.documentElement.dataset.theme);
+  expect(await theme()).toBe('light');
+  await page.locator('#theme').click();
+  expect(await theme()).toBe('dark');
+  await page.reload();
+  expect(await theme()).toBe('dark');
+  await expect(page.locator('#theme')).toHaveAttribute('title', 'Mudar para o tema claro');
+  await context.close();
+});
+
+test('ícones montados e rodapé com versão e commit', async ({ page }) => {
+  await openApp(page);
+  await expect(page.locator('[data-icon]')).toHaveCount(0);
+  await expect(page.locator('svg.icon').first()).toBeVisible();
+  await expect(page.locator('#build')).toContainText(`v${version} · commit`);
+});
+
+test('celular: sem rolagem lateral', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 375, height: 800 },
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  await openApp(page);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+  await context.close();
+});
+
+test.describe('com animação', () => {
+  test.use({ reducedMotion: 'no-preference' });
+
+  test('boot aparece na 1ª visita, pula com tecla e não volta na sessão', async ({ page }) => {
+    await page.goto('/');
+    const boot = page.locator('#boot');
+    await expect(boot).toBeVisible();
+    await expect(page.locator('#boot-log')).toContainText('DANIEL OS');
+    await page.keyboard.press('Enter');
+    await expect(boot).toBeHidden();
+    await page.reload();
+    await expect(boot).toBeHidden();
+  });
+
+  test('veredito pisca em tela cheia quando a assinatura muda', async ({ page }) => {
+    await page.goto('/');
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#d-status')).toHaveText('Assinatura válida.');
+    await page.locator('#d-key').fill('outro');
+    await expect(page.locator('#verdict')).toHaveClass(/show/);
+    await expect(page.locator('#verdict')).toHaveText('TEQUEL');
+  });
+});
+
+test('com animação reduzida: sem boot', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#boot')).toBeHidden();
+});
