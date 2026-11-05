@@ -41,7 +41,7 @@ code, pre, textarea, output { font-family: var(--mono); font-size: 14px; }
   border-bottom: 3px double var(--ink);
 }
 .masthead img { border-radius: 50%; flex-shrink: 0; }
-.theme { margin-left: auto; align-self: flex-start; min-width: 56px; min-height: 56px; padding: 6px 12px; font: 38px/1 var(--serif); }
+.theme { margin-left: auto; align-self: flex-start; min-width: 56px; min-height: 56px; padding: 6px 12px; justify-content: center; }
 h1 {
   margin: 0;
   font: 400 clamp(36px, 8vw, 64px) / 1.1 var(--display);
@@ -67,10 +67,14 @@ h2, label {
 .ledger ul { margin: 8px 0; padding-left: 20px; }
 .ledger li { margin: 4px 0; }
 .verse { margin: 0; font-style: italic; color: var(--muted); }
-.repo { font-weight: bold; }
+.repo { display: inline-flex; align-items: center; gap: 6px; font-weight: bold; }
+.icon { flex-shrink: 0; }
 
 .tabs { display: flex; gap: 8px; margin-top: 28px; border-bottom: 1px solid var(--ink); }
 button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 6px 18px;
   border: 1px solid var(--ink);
   background: var(--card);
@@ -110,7 +114,7 @@ output { display: block; min-height: 9em; }
 #d-payload { border-left: 4px solid var(--part-1); }
 
 .error { min-height: 1.5em; margin: 6px 0 0; color: var(--accent); font-style: italic; }
-.status { margin: 10px 0 0; padding: 8px 10px; border: 1px dashed var(--muted); }
+.status { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 8px 10px; border: 1px dashed var(--muted); }
 .status:empty { display: none; }
 .status.ok { border: 2px double var(--ok); color: var(--ok); font-weight: bold; }
 .status.bad { border: 2px double var(--accent); color: var(--accent); font-weight: bold; }

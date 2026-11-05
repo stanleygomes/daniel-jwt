@@ -1,13 +1,14 @@
 // Botão de tema: alterna claro/escuro e lembra a escolha neste navegador.
 
 import { $ } from './dom.ts';
+import { icon, type IconName } from './icons.ts';
 
 type Theme = 'light' | 'dark';
 
 const KEY = 'daniel-theme';
-const NEXT: Record<Theme, { icon: string; label: string }> = {
-  light: { icon: '☾', label: 'Mudar para o tema escuro' },
-  dark: { icon: '☀', label: 'Mudar para o tema claro' },
+const NEXT: Record<Theme, { icon: IconName; label: string }> = {
+  light: { icon: 'moon', label: 'Mudar para o tema escuro' },
+  dark: { icon: 'sun', label: 'Mudar para o tema claro' },
 };
 
 // localStorage pode não existir (aba privada, site bloqueado): aí só não lembra.
@@ -33,7 +34,7 @@ const systemTheme = (): Theme => (matchMedia('(prefers-color-scheme: dark)').mat
 function apply(theme: Theme): void {
   document.documentElement.dataset.theme = theme;
   const button = $('theme');
-  button.textContent = NEXT[theme].icon;
+  button.replaceChildren(icon(NEXT[theme].icon, 26));
   button.title = button.ariaLabel = NEXT[theme].label;
 }
 

@@ -18,6 +18,7 @@ src/ui/                 # tela
   decoder.ts encoder.ts #   abas Decifrar e Selar
   tabs.ts               #   troca de aba
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
+  icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
   style.css             #   visual retrô, claro e escuro

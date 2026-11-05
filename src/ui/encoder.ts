@@ -2,6 +2,7 @@
 
 import { sign, type Header, type Json } from '../jwt/token.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
+import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
 export type Draft = { header: Header; payload: Json; key: string };
@@ -43,8 +44,8 @@ async function update(): Promise<void> {
 async function copy(): Promise<void> {
   if (!token) return;
   await navigator.clipboard.writeText(token);
-  $('e-copy').textContent = 'Copiado';
-  setTimeout(() => ($('e-copy').textContent = 'Copiar'), 1500);
+  $('e-copy').replaceChildren(icon('check'), 'Copiado');
+  setTimeout(() => $('e-copy').replaceChildren(icon('copy'), 'Copiar'), 1500);
 }
 
 // Monta a aba com o rascunho inicial e devolve o token gerado.

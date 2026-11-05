@@ -3,6 +3,7 @@
 import './ui/fonts.ts';
 import './ui/style.css';
 import { setupDecoder } from './ui/decoder.ts';
+import { mountIcons } from './ui/icons.ts';
 import { setupEncoder, type Draft } from './ui/encoder.ts';
 import { setupTabs } from './ui/tabs.ts';
 import { setupTheme } from './ui/theme.ts';
@@ -14,6 +15,7 @@ const SAMPLE: Draft = {
   key: 'mene-mene-tequel-ufarsim',
 };
 
+mountIcons();
 setupTheme();
 watchNetwork();
 showBuild();
