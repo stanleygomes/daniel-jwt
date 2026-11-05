@@ -1,33 +1,44 @@
 # Daniel: instruções para agentes
 
-Decodificador/assinador de JWT 100% client-side. Site estático na Vercel.
+Decodificador/assinador de JWT 100% client-side. TypeScript + Vite, sem framework, na Vercel.
 
 ## Estrutura
 
 ```
-public/index.html   # tela (CSP também no <meta>)
-public/style.css    # visual retrô (papel, tinta, bordas duplas), claro e escuro
-public/app.js       # DOM: liga os campos ao jwt.js e conta a rede
-public/jwt.js       # núcleo puro: base64url, decode, sign, verify (WebCrypto)
-test/jwt.test.js    # node --test
-vercel.json         # outputDirectory public + cabeçalhos de segurança
+index.html              # marcação da tela
+src/main.ts             # entrada: monta as abas com o exemplo inicial
+src/jwt/                # núcleo puro (sem DOM, roda no Node)
+  base64url.ts          #   codificação das partes
+  algorithms.ts         #   alg do JWT → parâmetros da WebCrypto
+  keys.ts               #   segredo / PEM / JWK → CryptoKey
+  token.ts              #   decode, sign, verify
+src/ui/                 # tela
+  dom.ts                #   atalhos de DOM
+  claims.ts             #   claims legíveis (puro, testado)
+  decoder.ts encoder.ts #   abas Decifrar e Selar
+  tabs.ts               #   troca de aba
+  transparency.ts       #   contador de rede e de bloqueios da CSP
+  style.css             #   visual retrô, claro e escuro
+public/logo.jpg         # logo (também favicon)
+test/*.test.ts          # node --test
+vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
 ```
 
 ## Regras
 
-- **Nada de rede.** Nenhum `fetch`, CDN, fonte web, analytics ou script externo. A CSP
+- **Nada de rede.** Nenhum `fetch`, CDN, analytics ou recurso externo. A CSP
   `connect-src 'none'` é a promessa do projeto: não afrouxe.
-- **Zero dependência e zero build.** Só ES modules nativos. Node só roda os testes.
-- `jwt.js` não toca no DOM (roda no Node); `app.js` não faz criptografia.
-- Arquivo novo em `public/`? Liste no painel de transparência do `index.html` e no README.
-- Algoritmo novo: entrada em `ALGS` (`jwt.js`) + teste de ida e volta.
-- Mudou CSP? Mude nos dois lugares: `vercel.json` e `<meta>` do `index.html`.
+- **Dependência só de build.** O JS gerado não importa nada de terceiros.
+- `src/jwt/` não toca no DOM; `src/ui/` não faz criptografia.
+- TypeScript só com sintaxe apagável (`erasableSyntaxOnly`): os testes rodam o `.ts` direto no Node.
+- Imports relativos com extensão `.ts`.
+- Algoritmo novo: entrada em `ALGS` + teste de ida e volta em `test/jwt.test.ts`.
 
 ## Comandos
 
 ```bash
-npm test    # obrigatório antes de commitar
-npm start   # http://localhost:8000
+npm run build && npm test   # obrigatório antes de commitar
+npm run preview             # confira a tela com a CSP de produção
 ```
 
 Commits: Conventional Commits em português.

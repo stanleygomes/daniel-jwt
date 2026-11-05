@@ -1,16 +1,17 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { b64urlEncode, decode, sign, verify } from '../public/jwt.js';
+import { b64urlEncode } from '../src/jwt/base64url.ts';
+import { decode, sign, verify } from '../src/jwt/token.ts';
 
 // Token de exemplo clássico, assinado com HS256 e o segredo abaixo.
 const SAMPLE =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 const SAMPLE_SECRET = 'your-256-bit-secret';
 
-const toPem = (label, der) =>
+const toPem = (label: string, der: ArrayBuffer): string =>
   `-----BEGIN ${label} KEY-----\n${btoa(String.fromCharCode(...new Uint8Array(der)))}\n-----END ${label} KEY-----`;
 
-const ASYMMETRIC = {
+const ASYMMETRIC: Record<string, RsaHashedKeyGenParams | EcKeyGenParams | Algorithm> = {
   RS256: { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
   PS384: { name: 'RSA-PSS', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-384' },
   ES256: { name: 'ECDSA', namedCurve: 'P-256' },
@@ -52,7 +53,7 @@ test('alg none nunca é válido', async () => {
 
 for (const [alg, params] of Object.entries(ASYMMETRIC)) {
   test(`${alg}: assina com PEM privada e verifica com PEM e JWK públicas`, async () => {
-    const pair = await crypto.subtle.generateKey(params, true, ['sign', 'verify']);
+    const pair = (await crypto.subtle.generateKey(params, true, ['sign', 'verify'])) as CryptoKeyPair;
     const privatePem = toPem('PRIVATE', await crypto.subtle.exportKey('pkcs8', pair.privateKey));
     const publicPem = toPem('PUBLIC', await crypto.subtle.exportKey('spki', pair.publicKey));
     const publicJwk = JSON.stringify(await crypto.subtle.exportKey('jwk', pair.publicKey));
