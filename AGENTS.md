@@ -41,6 +41,8 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
   `connect-src 'none'` é a promessa do projeto: não afrouxe.
 - **Fonte nova:** pacote `@fontsource/*` importado em `src/ui/fonts.ts`. Nunca link do
   `fonts.googleapis.com` (seria requisição para fora).
+- **Trusted Types ligado** na CSP: nada de `innerHTML`, `outerHTML`, `insertAdjacentHTML`
+  ou `document.write`. Monte DOM com `createElement` + `textContent` (`el()` em `dom.ts`).
 - **Dependência só de build.** O JS gerado não importa nada de terceiros.
 - `src/jwt/` não toca no DOM; `src/ui/` não faz criptografia.
 - TypeScript só com sintaxe apagável (`erasableSyntaxOnly`): os testes rodam o `.ts` direto no Node.
