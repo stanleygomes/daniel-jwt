@@ -41,7 +41,7 @@ code, pre, textarea, output { font-family: var(--mono); font-size: 14px; }
   border-bottom: 3px double var(--ink);
 }
 .masthead img { border-radius: 50%; flex-shrink: 0; }
-.theme { margin-left: auto; align-self: flex-start; padding: 4px 10px; font: 20px/1 var(--serif); }
+.theme { margin-left: auto; align-self: flex-start; min-width: 56px; min-height: 56px; padding: 6px 12px; font: 38px/1 var(--serif); }
 h1 {
   margin: 0;
   font: 400 clamp(36px, 8vw, 64px) / 1.1 var(--display);
