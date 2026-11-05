@@ -4,7 +4,7 @@ Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquin
 
 > "Os teus presentes fiquem contigo; todavia lerei ao rei a escritura." (Daniel 5:17)
 
-![Daniel](public/logo.jpg)
+![Tela do Daniel](docs/screenshot.jpg)
 
 ## Por que confiar
 

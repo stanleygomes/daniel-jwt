@@ -25,6 +25,7 @@ src/ui/                 # tela
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
   style.css             #   visual retrô, claro e escuro
 public/logo.jpg         # logo (também favicon)
+docs/screenshot.jpg     # print da tela no README
 test/*.test.ts          # node --test
 vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
 .github/workflows/      # ci.yml (teste + build) e release.yml (tag v* → release)
