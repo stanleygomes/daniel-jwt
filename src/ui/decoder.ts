@@ -1,5 +1,6 @@
 // Aba "Decifrar": token + chave → cabeçalho, conteúdo, claims e veredito.
 
+import { isHmac } from '../jwt/algorithms.ts';
 import { decode, verify, type Decoded } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
@@ -10,11 +11,11 @@ import { keyLabel } from './keyLabel.ts';
 
 type Status = [kind: '' | 'ok' | 'bad', text: string];
 
-async function verdict(token: string, alg: string | undefined, key: string): Promise<Status> {
+async function verdict(token: string, alg: string | undefined, key: string, base64Secret: boolean): Promise<Status> {
   if (alg === 'none') return ['bad', 'alg "none": token sem assinatura. Não confie nele.'];
   if (!key) return ['', 'Informe a chave para verificar a assinatura.'];
   try {
-    return (await verify(token, key))
+    return (await verify(token, key, { base64Secret }))
       ? ['ok', 'Assinatura válida.']
       : ['bad', 'Tequel: pesado na balança e achado em falta.'];
   } catch (error) {
@@ -56,8 +57,11 @@ async function update(): Promise<void> {
   }
   $('d-error').textContent = '';
   render(jwt);
+  const hmac = isHmac(jwt.header.alg);
   $('d-key-label').textContent = keyLabel(jwt.header.alg, 'verify');
-  const status = await verdict(token, jwt.header.alg, field('d-key').value);
+  $('d-b64-box').hidden = !hmac;
+  const base64Secret = hmac && $<HTMLInputElement>('d-b64').checked;
+  const status = await verdict(token, jwt.header.alg, field('d-key').value, base64Secret);
   if (run === lastRun) setStatus(status);
 }
 
@@ -65,5 +69,6 @@ export async function setupDecoder(token: string, key: string): Promise<void> {
   field('d-token').value = token;
   field('d-key').value = key;
   for (const id of ['d-token', 'd-key']) field(id).addEventListener('input', update);
+  $('d-b64').addEventListener('change', update);
   await update();
 }

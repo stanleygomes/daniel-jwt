@@ -56,6 +56,7 @@
         <p id="d-error" class="error" role="alert"></p>
         <label for="d-key" id="d-key-label">Segredo</label>
         <textarea id="d-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
+        <label class="check" id="d-b64-box" hidden><input type="checkbox" id="d-b64"> segredo em base64</label>
         <p id="d-status" class="status" role="status"></p>
       </div>
       <div class="col" data-tilt>
@@ -73,8 +74,16 @@
         <textarea id="e-header" rows="4" spellcheck="false"></textarea>
         <label for="e-payload">Conteúdo</label>
         <textarea id="e-payload" rows="9" spellcheck="false"></textarea>
-        <label for="e-key" id="e-key-label">Segredo</label>
+        <div class="key-row">
+          <label for="e-key" id="e-key-label">Segredo</label>
+          <button id="e-generate" class="small" type="button"><span data-icon="key"></span>Gerar chave</button>
+        </div>
         <textarea id="e-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
+        <label class="check" id="e-b64-box" hidden><input type="checkbox" id="e-b64"> segredo em base64</label>
+        <div id="e-public-box" class="stack" hidden>
+          <label for="e-public">Chave pública (para verificar)</label>
+          <textarea id="e-public" rows="5" spellcheck="false" readonly></textarea>
+        </div>
       </div>
       <div class="col" data-tilt>
         <h2>Token</h2>

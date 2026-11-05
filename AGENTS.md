@@ -10,7 +10,9 @@ src/main.ts             # entrada: monta as abas com o exemplo inicial
 src/jwt/                # núcleo puro (sem DOM, roda no Node)
   base64url.ts          #   codificação das partes
   algorithms.ts         #   alg do JWT → parâmetros da WebCrypto
-  keys.ts               #   segredo / PEM / JWK → CryptoKey
+  keys.ts               #   segredo / PEM / certificado / JWK / JWKS → CryptoKey
+  der.ts                #   DER mínimo: PKCS#1/SEC1 → PKCS#8, certificado → SPKI
+  generate.ts           #   gera segredo ou par de chaves PEM
   token.ts              #   decode, sign, verify
 src/ui/                 # tela
   dom.ts                #   atalhos de DOM
@@ -26,7 +28,7 @@ src/ui/                 # tela
   style.css             #   visual retrô, claro e escuro
 public/logo.jpg         # logo (também favicon)
 docs/screenshot.jpg     # print da tela no README
-test/*.test.ts          # node --test
+test/*.test.ts          # node --test (chaves reais do openssl em test/fixtures/)
 vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa no preview
 .github/workflows/      # ci.yml (teste + build) e release.yml (tag v* → release)
 ```

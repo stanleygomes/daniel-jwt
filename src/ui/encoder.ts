@@ -1,5 +1,7 @@
 // Aba "Selar": cabeçalho + conteúdo + chave → token assinado.
 
+import { isHmac } from '../jwt/algorithms.ts';
+import { generateKey } from '../jwt/generate.ts';
 import { sign, type Header, type Json } from '../jwt/token.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { icon } from './icons.ts';
@@ -8,6 +10,8 @@ import { keyLabel } from './keyLabel.ts';
 export type Draft = { header: Header; payload: Json; key: string };
 
 let token = '';
+
+const base64 = (): HTMLInputElement => $<HTMLInputElement>('e-b64');
 
 function parseJson(text: string, name: string): Json {
   try {
@@ -29,14 +33,33 @@ async function update(): Promise<void> {
   try {
     const header: Header = parseJson(field('e-header').value, 'O cabeçalho');
     const payload = parseJson(field('e-payload').value, 'O conteúdo');
+    const hmac = isHmac(header.alg);
     $('e-key-label').textContent = keyLabel(header.alg, 'sign');
-    const signed = await sign(header, payload, field('e-key').value);
+    $('e-b64-box').hidden = !hmac;
+    $('e-public-box').hidden = hmac || !field('e-public').value;
+    const signed = await sign(header, payload, field('e-key').value, {
+      base64Secret: hmac && base64().checked,
+    });
     if (run !== lastRun) return;
     token = signed;
     render();
   } catch (error) {
     if (run !== lastRun) return;
     token = '';
+    render(errorMessage(error));
+  }
+}
+
+// Chave nova para o alg do cabeçalho; a pública aparece logo abaixo para verificar.
+async function generate(): Promise<void> {
+  try {
+    const { alg } = parseJson(field('e-header').value, 'O cabeçalho') as Header;
+    const { privateKey, publicKey } = await generateKey(alg);
+    field('e-key').value = privateKey;
+    field('e-public').value = publicKey ?? '';
+    base64().checked = false;
+    await update();
+  } catch (error) {
     render(errorMessage(error));
   }
 }
@@ -54,6 +77,8 @@ export async function setupEncoder({ header, payload, key }: Draft): Promise<str
   field('e-payload').value = pretty(payload);
   field('e-key').value = key;
   for (const id of ['e-header', 'e-payload', 'e-key']) field(id).addEventListener('input', update);
+  base64().addEventListener('change', update);
+  $('e-generate').addEventListener('click', generate);
   $('e-copy').addEventListener('click', copy);
   await update();
   return token;

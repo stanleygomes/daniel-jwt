@@ -1,6 +1,18 @@
 // Ícones Lucide empacotados no build (SVG inline, nada vem de fora).
 
-import { Check, Code, Copy, createElement, Moon, ScrollText, ShieldCheck, ShieldX, Stamp, Sun } from 'lucide';
+import {
+  Check,
+  Code,
+  Copy,
+  createElement,
+  KeyRound,
+  Moon,
+  ScrollText,
+  ShieldCheck,
+  ShieldX,
+  Stamp,
+  Sun,
+} from 'lucide';
 
 const ICONS = {
   sun: Sun,
@@ -12,6 +24,7 @@ const ICONS = {
   valid: ShieldCheck,
   invalid: ShieldX,
   code: Code,
+  key: KeyRound,
 };
 
 export type IconName = keyof typeof ICONS;
