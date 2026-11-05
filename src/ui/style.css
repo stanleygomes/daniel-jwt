@@ -1,32 +1,21 @@
 :root {
-  --paper: #f3ead6;
-  --card: #faf4e6;
-  --ink: #2a1a1f;
-  --muted: #6b5a52;
-  --accent: #6e1f34;
-  --ok: #3f5f2a;
-  --part-0: #6e1f34;
-  --part-1: #5b4a8b;
-  --part-2: #2c5f6f;
+  color-scheme: light dark;
+  --paper: light-dark(#f3ead6, #1d1714);
+  --card: light-dark(#faf4e6, #26201b);
+  --ink: light-dark(#2a1a1f, #eadfc8);
+  --muted: light-dark(#6b5a52, #a99886);
+  --accent: light-dark(#6e1f34, #d9788f);
+  --ok: light-dark(#3f5f2a, #9cc47a);
+  --part-0: light-dark(#6e1f34, #e0889c);
+  --part-1: light-dark(#5b4a8b, #b3a3e6);
+  --part-2: light-dark(#2c5f6f, #7cc1d1);
   --display: 'Bungee', Impact, sans-serif;
   --serif: 'Old Standard TT', Georgia, serif;
   --mono: 'Courier Prime', 'Courier New', monospace;
-  color-scheme: light dark;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #1d1714;
-    --card: #26201b;
-    --ink: #eadfc8;
-    --muted: #a99886;
-    --accent: #d9788f;
-    --ok: #9cc47a;
-    --part-0: #e0889c;
-    --part-1: #b3a3e6;
-    --part-2: #7cc1d1;
-  }
-}
+/* Sem escolha salva, segue o sistema; o botão (theme.ts) fixa um dos dois. */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -52,6 +41,7 @@ code, pre, textarea, output { font-family: var(--mono); font-size: 14px; }
   border-bottom: 3px double var(--ink);
 }
 .masthead img { border-radius: 50%; flex-shrink: 0; }
+.theme { margin-left: auto; align-self: flex-start; padding: 4px 10px; font: 20px/1 var(--serif); }
 h1 {
   margin: 0;
   font: 400 clamp(36px, 8vw, 64px) / 1.1 var(--display);
