@@ -6,15 +6,37 @@ Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquin
 
 ![Tela do Daniel](docs/screenshot.jpg)
 
-## Por que confiar
+## Transparência
 
-Não confie: confira. A criptografia inteira cabe em [`src/jwt/`](src/jwt) (~150 linhas).
+> "Os teus presentes fiquem contigo." Este site lê seu token e não leva nada.
 
-- **Sem rede.** A CSP de [`vercel.json`](vercel.json) tem `connect-src 'none'`: o navegador não envia nada.
-- **Sem servidor.** Assinatura e verificação usam a WebCrypto nativa.
-- **Sem rastreio.** Nada de cookie, analytics, CDN ou script de terceiros. Fontes (Bungee, Rajdhani, Share Tech Mono) e ícones são servidos pelo próprio site.
-- **Rastreável.** Cada release tem atestação de proveniência; o rodapé mostra o commit no ar.
-- **Ao vivo.** A tela conta as requisições para fora e os bloqueios da CSP. Ou abra o DevTools.
+Não confie: confira. Tudo o que está abaixo dá para checar sem acreditar em ninguém.
+
+### O que o site promete
+
+| Promessa | Como é garantido |
+| --- | --- |
+| **Nada sai do navegador** | A CSP de [`vercel.json`](vercel.json) tem `connect-src 'none'`: o navegador recusa qualquer `fetch`, XHR, WebSocket ou beacon. |
+| **Sem servidor** | Assinar e verificar usam a WebCrypto nativa do navegador. Não existe API. |
+| **Sem rastreio** | Nada de cookie, analytics, CDN ou script de terceiros. Fontes (Bungee, Rajdhani, Share Tech Mono) e ícones (Lucide) vêm do próprio site. |
+| **Código pequeno e aberto** | A criptografia inteira cabe em [`src/jwt/`](src/jwt) (~150 linhas). A tela fica em [`src/ui/`](src/ui). O JS publicado não importa nada de fora. |
+| **Build rastreável** | Cada release tem atestação de proveniência assinada pelo GitHub. O rodapé mostra a versão e o commit no ar, com link para o código exato. |
+
+### O painel no topo da tela
+
+| Item | O que mostra |
+| --- | --- |
+| **Pacotes para fora** | Quantos arquivos a página baixou de outro domínio, medido ao vivo (`PerformanceObserver`, o mesmo dado da aba Network). Deve ficar em 0. |
+| **Bloqueios da CSP** | Quantas vezes o navegador barrou algo proibido, como uma tentativa de enviar dados. Se alguém adulterar o JS para vazar seu token, sobe. |
+| **Uplink offline** / **Cripto webcrypto · local** | Rótulos fixos: lembram as garantias acima, não medem nada. |
+
+### Confira você mesmo
+
+1. **Rede:** abra o DevTools na aba Network, cole um token e veja que nenhuma requisição sai.
+2. **CSP no ar:** `curl -sI https://daniel-jwt.vercel.app | grep -i content-security-policy`
+3. **Código:** leia [`src/jwt/`](src/jwt) antes de colar um token de produção.
+4. **Release:** `gh attestation verify daniel-jwt-vX.Y.Z.zip --repo stanleygomes/daniel-jwt`
+5. **Offline:** baixe o zip da release (ou clone e `npm run build`), sirva o `dist/` localmente e desligue a internet.
 
 ## Funciona com
 
