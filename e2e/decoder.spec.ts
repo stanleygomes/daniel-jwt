@@ -103,3 +103,33 @@ test('segredo em base64: a caixa só aparece no HMAC e muda o veredito', async (
   await decodeWith(page, rsa, fixture('rsa-cert.pem'));
   await expect(page.locator('#d-b64-box')).toBeHidden();
 });
+
+test('JSON com realce de sintaxe: chave, texto, número e booleano', async ({ page }) => {
+  const json = page.locator('#d-payload');
+  await expect(json.locator('.json-key', { hasText: '"name"' })).toBeVisible();
+  await expect(json.locator('.json-string', { hasText: '"Belsazar"' })).toBeVisible();
+  await expect(json.locator('.json-number').first()).toBeVisible();
+  await expect(json.locator('.json-literal', { hasText: 'true' })).toBeVisible();
+});
+
+test('token colorido no campo, alinhado com o texto digitado', async ({ page }) => {
+  const paint = page.locator('#d-token-paint');
+  await expect(paint.locator('.part-0, .part-1, .part-2')).toHaveCount(3);
+  // token longo: as duas camadas precisam quebrar a linha nos mesmos pontos
+  const token = await page.locator('#d-token').inputValue();
+  await page.locator('#d-token').fill(`${token}${'A'.repeat(700)}`);
+  const sizes = await page.evaluate(() => {
+    const field = document.getElementById('d-token') as HTMLTextAreaElement;
+    const layer = document.getElementById('d-token-paint') as HTMLElement;
+    return [field.clientWidth, layer.clientWidth, field.scrollHeight, layer.scrollHeight];
+  });
+  expect(sizes[1]).toBe(sizes[0]);
+  expect(sizes[3]).toBe(sizes[2]);
+  expect(await paint.textContent()).toBe(await page.locator('#d-token').inputValue());
+});
+
+test('token malformado fica sem cores', async ({ page }) => {
+  await page.locator('#d-token').fill('isso.nao');
+  await expect(page.locator('#d-token-paint')).toHaveText('isso.nao');
+  await expect(page.locator('#d-token-paint span')).toHaveCount(0);
+});

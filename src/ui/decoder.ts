@@ -10,6 +10,7 @@ import { showRoute } from './fx/route.ts';
 import { addPoints, loseLife, setLives } from './fx/score.ts';
 import { flap } from './fx/text.ts';
 import { flashVerdict } from './fx/verdict.ts';
+import { paintJson, paintToken } from './highlight.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
@@ -52,8 +53,13 @@ function setStatus([kind, text]: Status): void {
 }
 
 function render(jwt: Decoded | null): void {
-  flap($('d-header'), jwt ? pretty(jwt.header) : '');
-  flap($('d-payload'), jwt ? pretty(jwt.payload) : '');
+  for (const [id, value] of [
+    ['d-header', jwt?.header],
+    ['d-payload', jwt?.payload],
+  ] as const) {
+    const text = value ? pretty(value) : '';
+    flap($(id), text, 22, () => paintJson($(id), text));
+  }
   $('d-claims').replaceChildren(
     ...describeClaims(jwt?.payload ?? {}).flatMap(({ label, text }) => [el('dt', label), el('dd', text)]),
   );
@@ -77,12 +83,14 @@ let lastRun = 0;
 let lastToken = '';
 async function update(): Promise<void> {
   const run = ++lastRun;
-  const token = field('d-token').value.trim();
+  const raw = field('d-token').value;
+  const token = raw.trim();
   let jwt: Decoded;
   try {
     jwt = decode(token);
   } catch (error) {
     $('d-error').textContent = token ? errorMessage(error) : '';
+    paintToken($('d-token-paint'), raw, false);
     render(null);
     showRoute(null);
     lastToken = '';
@@ -90,6 +98,7 @@ async function update(): Promise<void> {
     return;
   }
   $('d-error').textContent = '';
+  paintToken($('d-token-paint'), raw, true);
   render(jwt);
   if (token !== lastToken) showRoute(token);
   lastToken = token;
@@ -115,6 +124,10 @@ export async function setupDecoder(token: string, key: string): Promise<void> {
   field('d-token').value = token;
   field('d-key').value = key;
   for (const id of ['d-token', 'd-key']) field(id).addEventListener('input', update);
+  // a camada colorida embaixo do campo rola junto com ele
+  field('d-token').addEventListener('scroll', () => {
+    $('d-token-paint').scrollTop = field('d-token').scrollTop;
+  });
   $('d-b64').addEventListener('change', update);
   await update();
   ready = true;

@@ -362,6 +362,49 @@ output .part-2 {
   border-left-color: var(--l2);
 }
 
+/* realce de sintaxe do JSON (highlight.ts) */
+.json-key {
+  font-weight: 700;
+}
+.json-string {
+  color: var(--l3);
+}
+.json-number {
+  color: var(--l2);
+}
+.json-literal {
+  color: var(--l1);
+}
+
+/* token colorido enquanto se digita: o campo fica transparente por cima de uma
+   cópia pintada (mesma fonte, mesmo recuo, mesma quebra de linha) */
+.token-field {
+  display: grid;
+}
+.token-field > * {
+  grid-area: 1 / 1;
+  scrollbar-gutter: stable;
+}
+.token-paint {
+  min-height: 0;
+  overflow: hidden;
+}
+.token-paint span {
+  color: var(--c);
+}
+#d-token {
+  position: relative;
+  border-color: transparent;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--ink);
+  box-shadow: none;
+}
+#d-token:focus {
+  border-color: var(--l2);
+  box-shadow: 5px 5px 0 var(--l2);
+}
+
 /* mapa de fases: as três partes do token e o leão atravessando (fx/route.ts) */
 .map {
   position: relative;

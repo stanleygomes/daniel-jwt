@@ -52,7 +52,10 @@
     <section id="decode" class="grid">
       <div class="col">
         <label for="d-token">Token</label>
-        <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off" placeholder="INSERT TOKEN ▶ cole um JWT aqui"></textarea>
+        <div class="token-field">
+          <pre id="d-token-paint" class="token-paint" aria-hidden="true"></pre>
+          <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off" placeholder="INSERT TOKEN ▶ cole um JWT aqui"></textarea>
+        </div>
         <p id="d-error" class="error" role="alert"></p>
         <label for="d-key" id="d-key-label">Segredo</label>
         <textarea id="d-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
