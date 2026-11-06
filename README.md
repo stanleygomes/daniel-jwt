@@ -6,6 +6,10 @@ Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquin
 
 ![Tela do Daniel](docs/screenshot.jpg)
 
+## Por que Daniel
+
+Em Daniel 5, uma mão escreve na parede do palácio de Belsazar: *Mene, Mene, Tequel, Ufarsim*. Nenhum sábio da Babilônia consegue ler. Daniel recusa os presentes do rei e decifra de graça: **Mene**, contado (seu reino chegou ao fim); **Tequel**, pesado na balança e achado em falta; **Peres**, dividido. O site faz o mesmo com o JWT: lê o token, pesa a assinatura (inválida = Tequel), mostra as três partes em que ele se divide e não fica com nada seu.
+
 ## Transparência
 
 Este site lê seu token e não leva nada. Não confie: confira. Tudo o que está abaixo dá para checar sem acreditar em ninguém.
