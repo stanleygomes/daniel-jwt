@@ -63,6 +63,17 @@ npm run format              # corrige formatação e imports (Biome)
 npm run preview             # confira a tela com a CSP de produção
 ```
 
+## Toda mudança termina em release
+
+Depois de qualquer mudança, sem perguntar: lint, tipos e testes passando → commit no
+`master` → `git push` → release. Um commit por mudança lógica.
+
+1. Espere o CI do commit ficar verde (`gh run watch`). Vermelho: corrija antes de lançar.
+2. `npm version <patch|minor|major>`: `feat` → minor; `fix`, `style`, `refactor`, `perf`,
+   `docs`, `test`, `ci`, `build` → patch; quebra (`!`) → major. Vários commits juntos:
+   vale o maior.
+3. `git push --follow-tags` e confira o `release.yml` (`gh release view vX.Y.Z`).
+
 ## Release
 
 `npm version <patch|minor|major>` + `git push --follow-tags`. O `.npmrc` define a mensagem
