@@ -192,7 +192,8 @@ output {
   font: 15px / 1.7 var(--mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  box-shadow: 5px 5px 0 var(--shadow);
+  /* sombra âmbar: preta sumiria no próprio letreiro, que é escuro nos dois temas */
+  box-shadow: 5px 5px 0 var(--led);
 }
 
 /* ---------- botões de fliperama e abas ---------- */
