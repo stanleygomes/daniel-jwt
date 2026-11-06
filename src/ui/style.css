@@ -488,9 +488,42 @@ output .part-2 {
   font-size: 12px;
   font-weight: 400;
 }
-#e-copy {
-  align-self: flex-start;
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 4px;
+}
+button.ghost {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+/* seletor de algoritmo: escolheu, gera chave e assina */
+.alg-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.alg-row label {
+  margin: 0;
+}
+select {
+  min-width: 160px;
+  padding: 8px 12px;
+  border: 3px solid var(--edge);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font: 400 14px var(--display);
+  box-shadow: 4px 4px 0 var(--shadow);
+  cursor: pointer;
+}
+select:focus-visible {
+  outline: 3px solid var(--l2);
+  outline-offset: 3px;
 }
 
 .key-row {

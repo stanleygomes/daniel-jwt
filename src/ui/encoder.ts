@@ -1,13 +1,15 @@
 // Aba "Selar": cabeçalho + conteúdo + chave → token assinado.
 
-import { isHmac } from '../jwt/algorithms.ts';
+import { isHmac, SIGNING_ALGS } from '../jwt/algorithms.ts';
 import { generateKey } from '../jwt/generate.ts';
 import { type Header, type Json, sign } from '../jwt/token.ts';
+import { decodeToken } from './decoder.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { unlock } from './fx/achievements.ts';
 import { addPoints, pop } from './fx/score.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
+import { showTab } from './tabs.ts';
 
 export type Draft = { header: Header; payload: Json; key: string };
 
@@ -15,6 +17,7 @@ let token = '';
 let seals = 0; // placar de fliperama: quantos tokens já foram selados
 
 const base64 = (): HTMLInputElement => $<HTMLInputElement>('e-b64');
+const algSelect = (): HTMLSelectElement => $<HTMLSelectElement>('e-alg');
 
 function parseJson(text: string, name: string): Json {
   try {
@@ -46,6 +49,8 @@ async function update(): Promise<void> {
     const header: Header = parseJson(field('e-header').value, 'O cabeçalho');
     const payload = parseJson(field('e-payload').value, 'O conteúdo');
     const hmac = isHmac(header.alg);
+    // o seletor acompanha o cabeçalho; alg fora da lista deixa o seletor em branco
+    algSelect().value = SIGNING_ALGS.includes(header.alg ?? '') ? (header.alg as string) : '';
     $('e-key-label').textContent = keyLabel(header.alg, 'sign');
     $('e-b64-box').hidden = !hmac;
     $('e-public-box').hidden = hmac || !field('e-public').value;
@@ -80,6 +85,27 @@ async function generate(): Promise<void> {
   }
 }
 
+// Escolher o algoritmo troca o alg do cabeçalho e já forja um par de chaves novo.
+async function chooseAlg(): Promise<void> {
+  let header: Header;
+  try {
+    header = parseJson(field('e-header').value, 'O cabeçalho');
+  } catch {
+    header = { typ: 'JWT' };
+  }
+  field('e-header').value = pretty({ ...header, alg: algSelect().value });
+  await generate();
+}
+
+// Leva o token e a chave de verificação (pública, ou o próprio segredo) para a aba Decifrar.
+async function decodeThis(): Promise<void> {
+  if (!token) return;
+  const hmac = !field('e-public').value || $('e-public-box').hidden;
+  const key = hmac ? field('e-key').value : field('e-public').value;
+  showTab('decode');
+  await decodeToken(token, key, hmac && base64().checked);
+}
+
 async function copy(): Promise<void> {
   if (!token) return;
   await navigator.clipboard.writeText(token);
@@ -97,6 +123,11 @@ export async function setupEncoder({ header, payload, key }: Draft): Promise<str
   base64().addEventListener('change', update);
   $('e-generate').addEventListener('click', generate);
   $('e-copy').addEventListener('click', copy);
+  $('e-decode').addEventListener('click', decodeThis);
+  algSelect().append(el('option', 'Personalizado'), ...SIGNING_ALGS.map((alg) => el('option', alg)));
+  (algSelect().options[0] as HTMLOptionElement).value = '';
+  (algSelect().options[0] as HTMLOptionElement).disabled = true;
+  algSelect().addEventListener('change', chooseAlg);
   await update();
   ready = true;
   return token;

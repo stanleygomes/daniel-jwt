@@ -103,6 +103,14 @@ async function update(): Promise<void> {
   achievements(jwt, status, hmac);
 }
 
+// Vindo da aba Selar ("Decifrar este"): token + chave pública (ou segredo) já preenchidos.
+export async function decodeToken(token: string, key: string, base64Secret: boolean): Promise<void> {
+  field('d-token').value = token;
+  field('d-key').value = key;
+  $<HTMLInputElement>('d-b64').checked = base64Secret;
+  await update();
+}
+
 export async function setupDecoder(token: string, key: string): Promise<void> {
   field('d-token').value = token;
   field('d-key').value = key;

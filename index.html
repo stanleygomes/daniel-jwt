@@ -84,6 +84,10 @@
 
     <section id="encode" class="grid" hidden>
       <div class="col">
+        <div class="alg-row">
+          <label for="e-alg">Algoritmo</label>
+          <select id="e-alg"></select>
+        </div>
         <label for="e-header">Cabeçalho</label>
         <textarea id="e-header" rows="4" spellcheck="false"></textarea>
         <label for="e-payload">Conteúdo</label>
@@ -106,7 +110,10 @@
         </div>
         <output id="e-token" for="e-header e-payload e-key"></output>
         <p id="e-error" class="error" role="alert"></p>
-        <button id="e-copy" type="button"><span data-icon="copy"></span>Copiar</button>
+        <div class="actions">
+          <button id="e-copy" type="button"><span data-icon="copy"></span>Copiar</button>
+          <button id="e-decode" class="ghost" type="button"><span data-icon="decode"></span>Decifrar este</button>
+        </div>
       </div>
     </section>
   </main>

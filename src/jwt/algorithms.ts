@@ -14,6 +14,12 @@ for (const bits of [256, 384, 512]) {
   ALGS[`ES${bits}`] = { name: 'ECDSA', hash, namedCurve: `P-${bits === 512 ? 521 : bits}` };
 }
 
+// Os que dá para escolher na tela (sem o apelido Ed25519 e sem "none", que nunca é aceito).
+export const SIGNING_ALGS = [
+  ...['HS', 'RS', 'PS', 'ES'].flatMap((family) => [256, 384, 512].map((bits) => `${family}${bits}`)),
+  'EdDSA',
+];
+
 export const isHmac = (alg?: string): boolean => ALGS[alg ?? '']?.name === 'HMAC';
 
 export function algorithm(alg?: string): Params {
