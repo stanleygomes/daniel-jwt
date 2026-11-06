@@ -178,14 +178,10 @@ output {
 /* ---------- cabeçalho ---------- */
 .masthead {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 18px 24px;
   align-items: center;
   padding: 28px 0 0;
-}
-.logo {
-  display: block;
-  filter: drop-shadow(4px 4px 0 var(--shadow));
 }
 .title {
   min-width: 0;
@@ -1274,10 +1270,6 @@ textarea::placeholder {
   }
   .masthead {
     gap: 14px;
-  }
-  .logo {
-    width: 72px;
-    height: 72px;
   }
   .theme {
     width: 50px;

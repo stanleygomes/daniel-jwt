@@ -27,7 +27,7 @@ src/ui/                 # tela
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
   style.css             #   fliperama retrô (azulejo claro, fliperama escuro)
-public/logo.svg         # logo: D em três partes, como o token (também favicon)
+public/logo.svg         # ícone da aba (favicon): D em três partes, como o token
 public/og.jpg           # preview de link (1200×630); URL absoluta no <head> do index.html
 docs/screenshot.jpg     # print da tela no README
 test/*.test.ts          # unitários: node --test (chaves reais do openssl em test/fixtures/)
