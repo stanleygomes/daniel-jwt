@@ -627,6 +627,7 @@ footer p {
   margin: 4px 0;
 }
 .eol {
+  animation: blink 1.2s steps(1) infinite;
   color: var(--l1);
   font: 400 15px var(--display);
   letter-spacing: 0.2em;
