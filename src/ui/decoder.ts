@@ -4,7 +4,8 @@ import { isHmac } from '../jwt/algorithms.ts';
 import { type Decoded, decode, verify } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
-import { decrypt } from './fx/text.ts';
+import { showRoute } from './fx/route.ts';
+import { flap } from './fx/text.ts';
 import { flashVerdict } from './fx/verdict.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
@@ -39,8 +40,8 @@ function setStatus([kind, text]: Status): void {
 }
 
 function render(jwt: Decoded | null): void {
-  decrypt($('d-header'), jwt ? pretty(jwt.header) : '');
-  decrypt($('d-payload'), jwt ? pretty(jwt.payload) : '');
+  flap($('d-header'), jwt ? pretty(jwt.header) : '');
+  flap($('d-payload'), jwt ? pretty(jwt.payload) : '');
   $('d-claims').replaceChildren(
     ...describeClaims(jwt?.payload ?? {}).flatMap(({ label, text }) => [el('dt', label), el('dd', text)]),
   );
@@ -48,6 +49,7 @@ function render(jwt: Decoded | null): void {
 
 // Cada digitação dispara uma verificação; só a mais recente pinta o resultado.
 let lastRun = 0;
+let lastToken = '';
 async function update(): Promise<void> {
   const run = ++lastRun;
   const token = field('d-token').value.trim();
@@ -57,11 +59,15 @@ async function update(): Promise<void> {
   } catch (error) {
     $('d-error').textContent = token ? errorMessage(error) : '';
     render(null);
+    showRoute(null);
+    lastToken = '';
     setStatus(['', '']);
     return;
   }
   $('d-error').textContent = '';
   render(jwt);
+  if (token !== lastToken) showRoute(token);
+  lastToken = token;
   const hmac = isHmac(jwt.header.alg);
   $('d-key-label').textContent = keyLabel(jwt.header.alg, 'verify');
   $('d-b64-box').hidden = !hmac;

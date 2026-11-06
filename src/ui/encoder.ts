@@ -10,6 +10,7 @@ import { keyLabel } from './keyLabel.ts';
 export type Draft = { header: Header; payload: Json; key: string };
 
 let token = '';
+let seals = 0; // placar de fliperama: quantos tokens já foram selados
 
 const base64 = (): HTMLInputElement => $<HTMLInputElement>('e-b64');
 
@@ -41,6 +42,7 @@ async function update(): Promise<void> {
       base64Secret: hmac && base64().checked,
     });
     if (run !== lastRun) return;
+    if (signed !== token) $('e-score').textContent = String(++seals).padStart(6, '0');
     token = signed;
     render();
   } catch (error) {

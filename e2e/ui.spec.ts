@@ -53,7 +53,7 @@ test.describe('com animação', () => {
     await page.goto('/');
     const boot = page.locator('#boot');
     await expect(boot).toBeVisible();
-    await expect(page.locator('#boot-log')).toContainText('DANIEL OS');
+    await expect(page.locator('#boot-log')).toContainText('BABILÔNIA');
     await page.keyboard.press('Enter');
     await expect(boot).toBeHidden();
     await page.reload();
@@ -66,7 +66,7 @@ test.describe('com animação', () => {
     await expect(page.locator('#d-status')).toHaveText('Assinatura válida.');
     await page.locator('#d-key').fill('outro');
     await expect(page.locator('#verdict')).toHaveClass(/show/);
-    await expect(page.locator('#verdict')).toHaveText('TEQUEL');
+    await expect(page.locator('#verdict')).toHaveText('GAME OVER');
   });
 });
 

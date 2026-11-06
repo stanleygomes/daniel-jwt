@@ -1,38 +1,30 @@
-/* ---------- tokens: cada cor uma vez, claro e escuro ---------- */
+/* ---------- tokens: cada cor uma vez, claro (azulejo) e escuro (estação à noite) ---------- */
 :root {
   color-scheme: light dark;
-  --bg: light-dark(#eceef4, #06060c);
-  --panel: light-dark(rgb(255 255 255 / 0.8), rgb(13 15 30 / 0.78));
-  --ink: light-dark(#0b0d17, #d9f6ff);
-  --muted: light-dark(#59607a, #7d88a8);
-  --line: light-dark(#b9bfd3, #26304f);
-  --magenta: light-dark(#c0008a, #ff2bd6);
-  --cyan: light-dark(#007f99, #00f0ff);
-  --yellow: light-dark(#6f6200, #f5ff3b);
-  --ok: light-dark(#007a3d, #39ff88);
-  --bad: light-dark(#c4002f, #ff3b5c);
-  --btn-bg: light-dark(#0b0d17, #f5ff3b);
-  --btn-ink: light-dark(#f5ff3b, #06060c);
-  --glow-m: light-dark(rgb(192 0 138 / 0.15), rgb(255 43 214 / 0.65));
-  --glow-c: light-dark(rgb(0 127 153 / 0.15), rgb(0 240 255 / 0.55));
-  --glow-ok: light-dark(rgb(0 122 61 / 0.15), rgb(57 255 136 / 0.5));
-  --glow-bad: light-dark(rgb(196 0 47 / 0.15), rgb(255 59 92 / 0.55));
-  --scan: light-dark(rgb(0 0 0 / 0.035), rgb(0 0 0 / 0.28));
-  --grid-line: light-dark(rgb(192 0 138 / 0.25), rgb(255 43 214 / 0.45));
-  --spot: light-dark(rgb(192 0 138 / 0.07), rgb(0 240 255 / 0.07));
-  --veil: light-dark(rgb(236 238 244 / 0.7), rgb(6 6 12 / 0.7));
+  --bg: light-dark(#f2e8d5, #14121a);
+  --grout: light-dark(rgb(27 27 31 / 0.07), rgb(242 232 213 / 0.045));
+  --panel: light-dark(#fffbf2, #1e1b26);
+  --ink: light-dark(#1b1b1f, #f2e8d5);
+  --muted: light-dark(#6b6355, #a39bb0);
+  --edge: light-dark(#1b1b1f, #4a4458);
+  --shadow: light-dark(#1b1b1f, #050407);
+  /* linhas do metrô: cabeçalho, conteúdo e assinatura */
+  --l1: light-dark(#e4352b, #ff5a4e);
+  --l2: light-dark(#1f5faf, #4d8dff);
+  --l3: light-dark(#1e9e5a, #2fd483);
+  --coin: light-dark(#f7b500, #ffc93c);
+  --ok: light-dark(#147a44, #2fd483);
+  --bad: light-dark(#c42a20, #ff5a4e);
+  --veil: light-dark(rgb(242 232 213 / 0.8), rgb(20 18 26 / 0.8));
+  /* painel de LED e tela de fliperama: escuros nos dois temas */
+  --board: #0e0d12;
+  --led: #ffb000;
   --display: "Bungee", Impact, sans-serif;
-  --body: "Rajdhani", "Segoe UI", sans-serif;
-  --mono: "Share Tech Mono", "Courier New", monospace;
-  --cut: 12px;
-  --corners: polygon(
-    0 0,
-    calc(100% - var(--cut)) 0,
-    100% var(--cut),
-    100% 100%,
-    var(--cut) 100%,
-    0 calc(100% - var(--cut))
-  );
+  --shade: "Bungee Shade", "Bungee", Impact, sans-serif;
+  --body: "Overpass", "Segoe UI", sans-serif;
+  --mono: "Overpass Mono", "Courier New", monospace;
+  --pixel: "Press Start 2P", monospace;
+  --radius: 10px;
 }
 /* Sem escolha salva, segue o sistema; o botão (theme.ts) fixa um dos dois. */
 :root[data-theme="light"] {
@@ -54,88 +46,60 @@
   display: none !important;
 }
 ::selection {
-  background: var(--magenta);
-  color: var(--bg);
+  background: var(--coin);
+  color: #1b1b1f;
 }
 
+/* parede de azulejo de metrô (tijolinho 2:1, fiadas desencontradas), só com CSS */
 body {
   margin: 0 auto;
   max-width: 1160px;
   padding: 0 16px 56px;
-  background:
-    radial-gradient(700px circle at var(--mx, 50%) var(--my, 0%), var(--spot), transparent 60%), var(--bg);
-  background-attachment: fixed;
+  background-color: var(--bg);
+  background-image:
+    conic-gradient(at 2px 50%, transparent 75%, var(--grout) 0),
+    conic-gradient(at 2px 50%, transparent 75%, var(--grout) 0),
+    linear-gradient(var(--grout) 2px, transparent 0);
+  background-size:
+    72px 72px,
+    72px 72px,
+    100% 36px;
+  background-position:
+    0 0,
+    36px 36px,
+    0 0;
   color: var(--ink);
-  font: 500 18px / 1.5 var(--body);
-  cursor: crosshair;
+  font: 400 17px / 1.55 var(--body);
   overflow-x: hidden;
 }
 
-/* scanlines de CRT por cima de tudo */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  background: repeating-linear-gradient(to bottom, var(--scan) 0 1px, transparent 1px 3px);
-  animation: flicker 6s infinite;
-}
-
 a {
-  color: var(--cyan);
-  cursor: pointer;
+  color: var(--l2);
+  font-weight: 700;
 }
 a:hover {
-  color: var(--magenta);
-  text-shadow: 0 0 10px var(--glow-m);
+  color: var(--l1);
 }
 code,
 pre,
 textarea,
 output {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 14px;
 }
 
-/* ---------- fundo: chuva base64url + chão em grade ---------- */
-.rain {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  opacity: 0.16;
-  pointer-events: none;
+/* cor da linha de cada parte do token */
+.part-0 {
+  --c: var(--l1);
 }
-/* light-dark() só vale para cor: a opacidade da chuva no claro vai por seletor */
-:root[data-theme="light"] .rain {
-  opacity: 0.07;
+.part-1 {
+  --c: var(--l2);
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .rain {
-    opacity: 0.07;
-  }
-}
-.floor {
-  position: fixed;
-  bottom: 0;
-  left: -50%;
-  z-index: -2;
-  width: 200%;
-  height: 45vh;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 64px 64px;
-  transform: perspective(320px) rotateX(68deg);
-  transform-origin: bottom;
-  mask-image: linear-gradient(to top, black 10%, transparent 90%);
-  animation: floor 1.6s linear infinite;
-  pointer-events: none;
+.part-2 {
+  --c: var(--l3);
 }
 
-/* ---------- boot ---------- */
+/* ---------- abertura de fliperama ---------- */
 .boot {
   position: fixed;
   inset: 0;
@@ -143,228 +107,219 @@ output {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10vh 8vw;
-  background: #04040a;
-  color: #39ff88;
-  font: 16px / 1.7 var(--mono);
-  text-shadow: 0 0 8px rgb(57 255 136 / 0.7);
+  align-items: center;
+  padding: 10vh 6vw;
+  background:
+    repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.35) 0 1px, transparent 1px 3px),
+    radial-gradient(circle, #1d1a2a, var(--board) 70%);
+  color: #f2e8d5;
+  font: 13px / 2.2 var(--pixel);
+  text-align: center;
   cursor: pointer;
   /* rede de segurança: sem JS, some sozinho */
   animation: boot-timeout 0s 8s forwards;
 }
 .boot pre {
+  width: auto;
   margin: 0;
   padding: 0;
   border: 0;
   background: none;
   color: inherit;
+  box-shadow: none;
   font: inherit;
-  clip-path: none;
-  backdrop-filter: none;
   white-space: pre-wrap;
 }
 .boot-skip {
-  margin: 24px 0 0;
-  color: #3a8f5e;
-  font-size: 13px;
-  animation: blink 1s steps(1) infinite;
+  margin: 28px 0 0;
+  color: #ffc93c;
+  font: 16px var(--pixel);
+  animation: blink 0.9s steps(1) infinite;
 }
 .boot.off {
   animation: crt-off 0.6s ease-in forwards;
 }
 
-/* ---------- ticker ---------- */
+/* ---------- letreiro de LED ---------- */
 .ticker {
+  position: relative;
   overflow: hidden;
-  margin: 0 -16px;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  font: 12px / 30px var(--mono);
+  margin: 0 calc(50% - 50vw); /* de ponta a ponta da tela */
+  border-bottom: 4px solid var(--edge);
+  background: var(--board);
+  color: var(--led);
+  font: 11px / 36px var(--pixel);
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  text-shadow: 0 0 6px rgb(255 176 0 / 0.7);
   white-space: nowrap;
 }
-.ticker-track {
-  display: inline-block;
-  animation: ticker 40s linear infinite;
-}
-
-/* ---------- cabeçalho ---------- */
-.masthead {
-  position: relative;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  padding: 28px 0 22px;
-}
-.masthead::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--magenta), var(--cyan), transparent);
-  box-shadow: 0 0 14px var(--glow-m);
-}
-.logo-ring {
-  position: relative;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.logo-ring::before {
+/* matriz de pontos por cima */
+.ticker::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: conic-gradient(
-    var(--magenta),
-    transparent 30%,
-    var(--cyan) 50%,
-    transparent 80%,
-    var(--magenta)
-  );
-  animation: spin 4s linear infinite;
+  background:
+    repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.45) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(to right, rgb(0 0 0 / 0.45) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+}
+.ticker-track {
+  display: inline-block;
+  animation: ticker 45s linear infinite;
+}
+
+/* ---------- placa da estação ---------- */
+.masthead {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px 24px;
+  align-items: center;
+  padding: 28px 0 0;
 }
 .logo {
-  position: relative;
-  border-radius: 50%;
-  box-shadow: 0 0 24px var(--glow-m);
+  display: block;
+  filter: drop-shadow(4px 4px 0 var(--shadow));
 }
 .title {
   min-width: 0;
 }
 .kicker {
+  display: inline-block;
   margin: 0;
-  color: var(--cyan);
-  font: 13px var(--mono);
-  letter-spacing: 0.3em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 400 12px var(--display);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-
-.glitch {
-  position: relative;
-  margin: 2px 0 4px;
-  font: 400 clamp(46px, 10vw, 92px) / 1 var(--display);
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 22px var(--glow-c);
+.sign {
+  margin: 6px 0 4px;
+  font: 400 clamp(46px, 11vw, 100px) / 1 var(--shade);
+  letter-spacing: 0.02em;
 }
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.glitch::before {
-  color: var(--magenta);
-  animation: glitch-a 3.1s infinite steps(1);
-}
-.glitch::after {
-  color: var(--cyan);
-  animation: glitch-b 2.7s infinite steps(1);
-}
-
-.motto {
+.lines {
+  display: flex;
+  gap: 6px;
   margin: 0;
-  min-height: 1.5em;
-  color: var(--magenta);
-  font: 16px var(--mono);
 }
-.motto::after {
-  content: "▌";
-  margin-left: 2px;
-  color: var(--cyan);
-  animation: blink 1s steps(1) infinite;
+.bullet {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  font: 400 14px var(--display);
 }
 
-/* ---------- botões e abas ---------- */
+/* painel de partidas: plaquinhas que giram (fx/text.ts) */
+.board {
+  grid-column: 1 / -1;
+  min-height: 3em;
+  margin: 0;
+  padding: 10px 16px;
+  border: 3px solid var(--edge);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(transparent calc(50% - 1px), rgb(255 255 255 / 0.07) 50%, transparent calc(50% + 1px)),
+    var(--board);
+  color: var(--led);
+  font: 15px / 1.7 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+/* ---------- botões de fliperama e abas ---------- */
 button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  border: 0;
-  background: var(--btn-bg);
-  color: var(--btn-ink);
+  border: 3px solid var(--edge);
+  border-radius: 999px;
+  background: var(--coin);
+  color: #1b1b1f;
   font: 400 14px var(--display);
-  letter-spacing: 0.08em;
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  letter-spacing: 0.05em;
+  box-shadow: 0 5px 0 var(--shadow);
   cursor: pointer;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
 }
 button:hover {
-  animation: jitter 0.25s steps(2) 2;
+  filter: brightness(1.06);
+}
+button:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 var(--shadow);
 }
 button:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
+  outline: 3px solid var(--l2);
+  outline-offset: 4px;
 }
 
 .theme {
-  margin-left: auto;
-  align-self: flex-start;
+  align-self: start;
   justify-content: center;
-  min-width: 56px;
-  min-height: 56px;
-  padding: 6px;
-  background: var(--panel);
-  color: var(--cyan);
-  box-shadow: inset 0 0 0 1px var(--line);
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  background: var(--l2);
+  color: #fff;
 }
 
 .tabs {
   display: flex;
-  gap: 6px;
-  margin-top: 28px;
-  border-bottom: 1px solid var(--line);
+  gap: 12px;
+  margin-top: 32px;
 }
 [role="tab"] {
-  background: transparent;
-  color: var(--muted);
-  box-shadow: inset 0 0 0 1px var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
 }
 [role="tab"][aria-selected="true"] {
-  background: var(--magenta);
+  background: var(--ink);
   color: var(--bg);
-  box-shadow: none;
 }
 
 /* ---------- painéis ---------- */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  padding-top: 20px;
+  gap: 32px;
+  padding-top: 26px;
 }
 .col {
   min-width: 0;
   display: flex;
   flex-direction: column;
 }
-[data-tilt] {
-  transition: transform 0.25s ease-out;
-  will-change: transform;
-}
 
 h2,
 label {
-  margin: 18px 0 8px;
-  color: var(--cyan);
-  font: 400 12px var(--display);
-  letter-spacing: 0.14em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 8px;
+  font: 400 13px var(--display);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 h2::before,
 label::before {
-  content: "// ";
-  color: var(--muted);
-}
-label {
-  margin-top: 16px;
+  content: "";
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--c, var(--edge));
+  border-radius: 50%;
+  background: var(--panel);
 }
 label:first-child,
 .col > h2:first-child {
@@ -377,26 +332,22 @@ output {
   width: 100%;
   margin: 0;
   padding: 12px 14px;
-  border: 1px solid var(--line);
+  border: 3px solid var(--edge);
+  border-radius: var(--radius);
   background: var(--panel);
   color: var(--ink);
-  clip-path: var(--corners);
-  backdrop-filter: blur(6px);
+  box-shadow: 5px 5px 0 var(--shadow);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
 }
 textarea {
   resize: vertical;
-  caret-color: var(--magenta);
-  cursor: text;
+  caret-color: var(--l1);
 }
 textarea:focus {
   outline: none;
-  border-color: var(--cyan);
-  box-shadow: inset 0 0 22px var(--glow-c);
+  border-color: var(--l2);
+  box-shadow: 5px 5px 0 var(--l2);
 }
 pre {
   min-height: 3.2em;
@@ -405,76 +356,169 @@ output {
   display: block;
   min-height: 9em;
 }
-
-.part-0 {
-  color: var(--magenta);
-  text-shadow: 0 0 8px var(--glow-m);
+output .part-0,
+output .part-1,
+output .part-2 {
+  color: var(--c);
+  font-weight: 700;
 }
-.part-1 {
-  color: var(--cyan);
-  text-shadow: 0 0 8px var(--glow-c);
-}
-.part-2 {
-  color: var(--yellow);
+#d-header,
+#d-payload {
+  border-left-width: 10px;
 }
 #d-header {
-  border-left: 3px solid var(--magenta);
+  border-left-color: var(--l1);
 }
 #d-payload {
-  border-left: 3px solid var(--cyan);
+  border-left-color: var(--l2);
+}
+
+/* mapa da linha: as três partes do token e o trem (fx/route.ts) */
+.route {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 6px;
+  padding: 0;
+  list-style: none;
+}
+.route::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  right: 16.66%;
+  left: 16.66%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--l1), var(--l2) 50%, var(--l3));
+}
+.route::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 4px;
+  left: calc(16.66% - 16px);
+  width: 32px;
+  height: 22px;
+  border: 3px solid var(--edge);
+  border-radius: 6px 12px 12px 6px;
+  background: var(--coin);
+  opacity: 0;
+}
+.route.run::after {
+  animation: train 1.8s ease-in-out forwards;
+}
+.route.off {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+.stop {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.stop::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  margin-bottom: 6px;
+  border: 7px solid var(--c);
+  border-radius: 50%;
+  background: var(--panel);
+}
+.stop b {
+  font: 400 12px var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.stop small {
+  color: var(--muted);
+  font: 12px var(--mono);
 }
 
 .error {
   min-height: 1.5em;
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--bad);
-  font: 14px var(--mono);
+  font: 700 14px var(--mono);
 }
 
 .status {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   padding: 12px 14px;
-  border: 1px dashed var(--line);
-  clip-path: var(--corners);
-  font: 15px var(--mono);
+  border: 3px dashed var(--edge);
+  border-radius: var(--radius);
+  font: 700 14px var(--mono);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 .status:empty {
   display: none;
 }
 .status.ok {
-  border: 1px solid var(--ok);
+  border: 3px solid var(--ok);
   color: var(--ok);
-  text-shadow: 0 0 8px var(--glow-ok);
-  animation: glow-ok 2.4s ease-in-out infinite;
+  box-shadow: 5px 5px 0 var(--ok);
 }
 .status.bad {
-  border: 1px solid var(--bad);
+  border: 3px solid var(--bad);
   color: var(--bad);
-  text-shadow: 0 0 8px var(--glow-bad);
+  box-shadow: 5px 5px 0 var(--bad);
   animation: shake 0.4s;
 }
 
+/* claims como tabela de recordes */
 dl {
-  margin: 14px 0 0;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 4px 16px;
+  margin: 16px 0 0;
+}
+dt,
+dd {
+  padding: 8px 0;
+  border-bottom: 2px dotted var(--edge);
 }
 dt {
+  padding-right: 16px;
   color: var(--muted);
-  font: 13px var(--mono);
+  font: 9px / 1.8 var(--pixel);
+  text-transform: uppercase;
 }
 dd {
   margin: 0;
+  font: 14px var(--mono);
 }
 
+.token-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.token-head h2 {
+  margin: 0;
+}
+.score {
+  margin: 0;
+  color: var(--muted);
+  font: 9px var(--pixel);
+  text-transform: uppercase;
+}
+.score b {
+  color: var(--l1);
+  font-size: 12px;
+  font-weight: 400;
+}
 #e-copy {
   align-self: flex-start;
+  margin-top: 4px;
 }
 
 .key-row {
@@ -482,7 +526,7 @@ dd {
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 .key-row label {
   margin: 0 0 8px;
@@ -492,21 +536,19 @@ dd {
   flex-direction: column;
 }
 .stack > label:first-child {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 button.small {
-  margin-bottom: 6px;
-  padding: 6px 12px;
-  background: transparent;
-  color: var(--cyan);
+  margin-bottom: 8px;
+  padding: 5px 12px;
+  border-width: 2px;
+  background: var(--panel);
+  color: var(--ink);
   font-size: 11px;
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: 0 3px 0 var(--shadow);
 }
 label.check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
   font: 15px var(--body);
   letter-spacing: 0;
@@ -517,12 +559,12 @@ label.check::before {
   content: none;
 }
 label.check input {
-  accent-color: var(--magenta);
   width: 16px;
   height: 16px;
+  accent-color: var(--l2);
 }
 
-/* ---------- veredito em tela cheia ---------- */
+/* ---------- fim de fase em tela cheia ---------- */
 .verdict {
   position: fixed;
   inset: 0;
@@ -530,44 +572,46 @@ label.check input {
   display: grid;
   place-items: center;
   padding: 16px;
-  background: radial-gradient(circle, var(--veil), transparent 70%);
-  font: 400 clamp(40px, 11vw, 130px) / 1 var(--display);
+  background: radial-gradient(circle, var(--veil), transparent 75%);
+  font: clamp(26px, 7vw, 76px) / 1.2 var(--pixel);
   text-align: center;
   opacity: 0;
   pointer-events: none;
 }
 .verdict.ok {
-  color: var(--ok);
-  text-shadow:
-    0 0 30px var(--glow-ok),
-    4px 0 var(--cyan),
-    -4px 0 var(--magenta);
+  color: var(--l3);
+  text-shadow: 6px 6px 0 var(--shadow);
 }
 .verdict.bad {
-  color: var(--bad);
-  text-shadow:
-    0 0 30px var(--glow-bad),
-    5px 0 var(--cyan),
-    -5px 0 var(--magenta);
+  color: var(--l1);
+  text-shadow: 6px 6px 0 var(--shadow);
 }
 .verdict.show {
-  animation: verdict 1.3s ease-out;
+  animation: verdict 1.4s steps(14);
 }
 
-/* ---------- transparência e rodapé ---------- */
+/* ---------- aviso aos passageiros e rodapé ---------- */
 .ledger {
-  margin: 48px 0 24px;
-  padding: 20px 24px;
-  border: 1px solid var(--line);
+  margin: 56px 0 24px;
+  padding: 0 24px 20px;
+  overflow: hidden;
+  border: 3px solid var(--edge);
+  border-radius: var(--radius);
   background: var(--panel);
-  clip-path: var(--corners);
-  backdrop-filter: blur(6px);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+/* faixa zebrada de atenção */
+.ledger::before {
+  content: "";
+  display: block;
+  height: 14px;
+  margin: 0 -24px 20px;
+  background: repeating-linear-gradient(-45deg, var(--coin) 0 14px, #1b1b1f 14px 28px);
 }
 .ledger h2 {
   margin-top: 0;
-  color: var(--magenta);
-  font-size: 16px;
-  letter-spacing: 0.04em;
+  font-size: 17px;
+  letter-spacing: 0.02em;
   text-transform: none;
 }
 .ledger h2::before {
@@ -575,19 +619,21 @@ label.check input {
 }
 .ledger ul {
   margin: 10px 0;
-  padding-left: 20px;
-}
-.ledger strong {
-  color: var(--yellow);
-  font-family: var(--mono);
-  font-weight: 400;
+  padding-left: 22px;
 }
 .ledger li {
   margin: 6px 0;
 }
 .ledger li::marker {
-  content: "▸  ";
-  color: var(--cyan);
+  content: "●  ";
+  color: var(--l2);
+}
+.ledger strong {
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--board);
+  color: var(--led);
+  font: 11px var(--pixel);
 }
 .verse {
   margin: 0;
@@ -598,7 +644,6 @@ label.check input {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-weight: 700;
 }
 .icon {
   flex-shrink: 0;
@@ -614,71 +659,16 @@ footer p {
   margin: 4px 0;
 }
 .eol {
-  color: var(--magenta);
-  letter-spacing: 0.3em;
+  color: var(--l1);
+  font: 400 15px var(--display);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  text-shadow: 0 0 10px var(--glow-m);
 }
 
 /* ---------- animações ---------- */
-@keyframes glitch-a {
-  0%,
-  90%,
-  100% {
-    clip-path: inset(0 0 100% 0);
-    transform: none;
-  }
-  91% {
-    clip-path: inset(8% 0 58% 0);
-    transform: translate(-7px, -1px);
-  }
-  94% {
-    clip-path: inset(62% 0 6% 0);
-    transform: translate(6px, 1px);
-  }
-  97% {
-    clip-path: inset(30% 0 42% 0);
-    transform: translate(-3px, 0);
-  }
-}
-@keyframes glitch-b {
-  0%,
-  86%,
-  100% {
-    clip-path: inset(100% 0 0 0);
-    transform: none;
-  }
-  87% {
-    clip-path: inset(48% 0 22% 0);
-    transform: translate(7px, 1px);
-  }
-  91% {
-    clip-path: inset(4% 0 70% 0);
-    transform: translate(-5px, -1px);
-  }
-  95% {
-    clip-path: inset(70% 0 2% 0);
-    transform: translate(4px, 0);
-  }
-}
-@keyframes jitter {
-  50% {
-    transform: translate(-2px, 1px);
-  }
-}
 @keyframes blink {
   50% {
     opacity: 0;
-  }
-}
-@keyframes spin {
-  to {
-    transform: rotate(1turn);
-  }
-}
-@keyframes floor {
-  to {
-    background-position: 0 64px;
   }
 }
 @keyframes ticker {
@@ -686,22 +676,17 @@ footer p {
     transform: translateX(-50%);
   }
 }
-@keyframes flicker {
-  0%,
-  97%,
-  100% {
+@keyframes train {
+  0% {
+    left: calc(16.66% - 16px);
     opacity: 1;
   }
-  98% {
-    opacity: 0.6;
+  85% {
+    opacity: 1;
   }
-  99% {
-    opacity: 0.9;
-  }
-}
-@keyframes glow-ok {
-  50% {
-    box-shadow: inset 0 0 22px var(--glow-ok);
+  100% {
+    left: calc(83.33% - 16px);
+    opacity: 0;
   }
 }
 @keyframes shake {
@@ -720,30 +705,27 @@ footer p {
 }
 @keyframes verdict {
   0% {
-    opacity: 0;
-    transform: scale(1.5);
-    filter: blur(10px);
-  }
-  14% {
     opacity: 1;
-    transform: scale(1);
-    filter: none;
+    transform: scale(0.2);
   }
-  22% {
-    transform: translate(-8px, 3px) skewX(-8deg);
-  }
-  26% {
-    transform: translate(6px, -2px) skewX(6deg);
+  20% {
+    transform: scale(1.15);
   }
   30% {
-    transform: none;
+    transform: scale(1);
   }
-  72% {
+  40%,
+  60% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  85% {
     opacity: 1;
   }
   100% {
     opacity: 0;
-    transform: scale(0.96);
   }
 }
 @keyframes crt-off {
@@ -794,12 +776,18 @@ footer p {
   .masthead {
     gap: 14px;
   }
-  .logo-ring {
-    width: 76px;
-    height: 76px;
-  }
   .logo {
-    width: 68px;
-    height: 68px;
+    width: 72px;
+    height: 72px;
+  }
+  .theme {
+    width: 50px;
+    height: 50px;
+  }
+  .board {
+    font-size: 13px;
+  }
+  .boot {
+    font-size: 10px;
   }
 }

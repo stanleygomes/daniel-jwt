@@ -1,4 +1,4 @@
-// Boot de terminal na primeira visita da sessão, desligando como um CRT.
+// Tela de abertura de fliperama na primeira visita da sessão, desligando como um CRT.
 
 import { $ } from '../dom.ts';
 import { reducedMotion } from './motion.ts';
@@ -7,12 +7,16 @@ const SEEN_KEY = 'daniel-booted';
 const LINE_MS = 260;
 
 const lines = (version: string): string[] => [
-  `> DANIEL OS v${version} // babilônia, 539 a.C.`,
-  '> carregando núcleo criptográfico ...... webcrypto  [ok]',
-  "> cortando uplink ...................... connect-src 'none'  [ok]",
-  '> rastreadores encontrados ............. 0',
-  '> pesando na balança ................... [ok]',
-  '> MENE MENE TEQUEL UFARSIM',
+  `DANIEL v${version}`,
+  '© 539 A.C. BABILÔNIA',
+  '',
+  '1UP     000000',
+  'HI      539000',
+  '',
+  'PACOTES PARA FORA .... 0',
+  "CONNECT-SRC .... 'NONE'",
+  '',
+  'MENE MENE TEQUEL UFARSIM',
 ];
 
 // sessionStorage pode não existir (aba privada, site bloqueado): aí o boot roda sempre.

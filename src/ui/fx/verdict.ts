@@ -1,9 +1,9 @@
-// Veredito em tela cheia quando a assinatura muda de estado.
+// Fim de fase em tela cheia quando a assinatura muda de estado.
 
 import { $ } from '../dom.ts';
 import { reducedMotion } from './motion.ts';
 
-const TEXT = { ok: 'ACESSO CONCEDIDO', bad: 'TEQUEL' };
+const TEXT = { ok: 'STAGE CLEAR', bad: 'GAME OVER' };
 
 export function flashVerdict(kind: 'ok' | 'bad'): void {
   if (reducedMotion) return;

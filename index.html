@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#06060c">
+  <meta name="theme-color" content="#14121a">
   <title>Daniel · decifrador de JWT</title>
   <meta name="description" content="Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquina.">
-  <link rel="icon" href="/logo.jpg">
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
   <!-- Preview de link (WhatsApp, Slack, redes). Crawler exige URL absoluta. -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://daniel-jwt.vercel.app/">
@@ -22,27 +22,26 @@
 <body>
   <div id="boot" class="boot" aria-hidden="true">
     <pre id="boot-log"></pre>
-    <p class="boot-skip">[ clique ou tecle para pular ]</p>
+    <p class="boot-skip">INSERT COIN</p>
   </div>
-  <canvas id="rain" class="rain" aria-hidden="true"></canvas>
-  <div class="floor" aria-hidden="true"></div>
   <div id="verdict" class="verdict" aria-hidden="true"></div>
 
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span>// uplink offline // connect-src 'none' // 0 rastreadores // webcrypto local // mene mene tequel ufarsim // os teus presentes fiquem contigo </span>
-      <span>// uplink offline // connect-src 'none' // 0 rastreadores // webcrypto local // mene mene tequel ufarsim // os teus presentes fiquem contigo </span>
+      <span>Próximo trem: Babilônia ··· plataforma local ··· 0 pacotes para fora ··· connect-src 'none' ··· mene mene tequel ufarsim ··· </span>
+      <span>Próximo trem: Babilônia ··· plataforma local ··· 0 pacotes para fora ··· connect-src 'none' ··· mene mene tequel ufarsim ··· </span>
     </div>
   </div>
 
   <header class="masthead">
-    <span class="logo-ring"><img class="logo" src="/logo.jpg" alt="Logo do Daniel" width="104" height="104"></span>
+    <img class="logo" src="/logo.svg" alt="Logo do Daniel" width="112" height="112">
     <div class="title">
-      <p class="kicker">sys://daniel — decifrador de jwt</p>
-      <h1 class="glitch" data-text="DANIEL">DANIEL</h1>
-      <p id="motto" class="motto">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
+      <p class="kicker">Estação Babilônia · Linha JWT</p>
+      <h1 class="sign">DANIEL</h1>
+      <p class="lines" aria-hidden="true"><span class="bullet part-0">1</span><span class="bullet part-1">2</span><span class="bullet part-2">3</span></p>
     </div>
     <button id="theme" class="theme" type="button"></button>
+    <p id="motto" class="board">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
   </header>
 
   <div class="tabs" role="tablist">
@@ -61,7 +60,12 @@
         <label class="check" id="d-b64-box" hidden><input type="checkbox" id="d-b64"> segredo em base64</label>
         <p id="d-status" class="status" role="status"></p>
       </div>
-      <div class="col" data-tilt>
+      <div class="col">
+        <ol id="d-route" class="route" aria-label="Partes do token">
+          <li class="stop part-0"><b>Cabeçalho</b><small></small></li>
+          <li class="stop part-1"><b>Conteúdo</b><small></small></li>
+          <li class="stop part-2"><b>Assinatura</b><small></small></li>
+        </ol>
         <h2 class="part-0">Cabeçalho</h2>
         <pre id="d-header"></pre>
         <h2 class="part-1">Conteúdo</h2>
@@ -87,8 +91,11 @@
           <textarea id="e-public" rows="5" spellcheck="false" readonly></textarea>
         </div>
       </div>
-      <div class="col" data-tilt>
-        <h2>Token</h2>
+      <div class="col">
+        <div class="token-head">
+          <h2>Token</h2>
+          <p class="score">Selos <b id="e-score">000000</b></p>
+        </div>
         <output id="e-token" for="e-header e-payload e-key"></output>
         <p id="e-error" class="error" role="alert"></p>
         <button id="e-copy" type="button"><span data-icon="copy"></span>Copiar</button>
@@ -96,7 +103,7 @@
     </section>
   </main>
 
-  <aside class="ledger" aria-labelledby="ledger-title" data-tilt>
+  <aside class="ledger" aria-labelledby="ledger-title">
     <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
     <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
     <ul>
@@ -114,7 +121,7 @@
   </aside>
 
   <footer>
-    <p class="eol">◢◤ end of line ◢◤</p>
+    <p class="eol">● Fim da linha ●</p>
     <p>HS, RS, PS, ES e EdDSA. Código aberto, licença MIT.</p>
     <p><a id="build" href="https://github.com/stanleygomes/daniel-jwt/releases">releases</a></p>
   </footer>
