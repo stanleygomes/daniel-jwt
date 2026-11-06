@@ -4,6 +4,8 @@ import { isHmac } from '../jwt/algorithms.ts';
 import { type Decoded, decode, verify } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
+import { unlock } from './fx/achievements.ts';
+import { showLife } from './fx/life.ts';
 import { showRoute } from './fx/route.ts';
 import { flap } from './fx/text.ts';
 import { flashVerdict } from './fx/verdict.ts';
@@ -45,6 +47,19 @@ function render(jwt: Decoded | null): void {
   $('d-claims').replaceChildren(
     ...describeClaims(jwt?.payload ?? {}).flatMap(({ label, text }) => [el('dt', label), el('dd', text)]),
   );
+  showLife(jwt?.payload ?? null);
+}
+
+// Conquistas só pelo que a pessoa faz, nunca pelo exemplo do carregamento.
+let ready = false;
+
+function achievements(jwt: Decoded, [kind]: Status, hmac: boolean): void {
+  if (!ready) return;
+  const { exp } = jwt.payload;
+  if (typeof exp === 'number' && exp < Date.now() / 1000) unlock('expired');
+  if (jwt.header.alg === 'none') unlock('none');
+  else if (kind === 'bad') unlock('tequel');
+  else if (kind === 'ok' && !hmac) unlock('rival');
 }
 
 // Cada digitação dispara uma verificação; só a mais recente pinta o resultado.
@@ -73,7 +88,9 @@ async function update(): Promise<void> {
   $('d-b64-box').hidden = !hmac;
   const base64Secret = hmac && $<HTMLInputElement>('d-b64').checked;
   const status = await verdict(token, jwt.header.alg, field('d-key').value, base64Secret);
-  if (run === lastRun) setStatus(status);
+  if (run !== lastRun) return;
+  setStatus(status);
+  achievements(jwt, status, hmac);
 }
 
 export async function setupDecoder(token: string, key: string): Promise<void> {
@@ -82,4 +99,5 @@ export async function setupDecoder(token: string, key: string): Promise<void> {
   for (const id of ['d-token', 'd-key']) field(id).addEventListener('input', update);
   $('d-b64').addEventListener('change', update);
   await update();
+  ready = true;
 }

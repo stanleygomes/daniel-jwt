@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { describeClaims } from '../src/ui/claims.ts';
+import { describeClaims, lifeLeft } from '../src/ui/claims.ts';
 
 const NOW = 1_700_000_000;
 
@@ -21,4 +21,15 @@ test('marca exp vencido e nbf futuro', () => {
 test('iat válido vira só a data', () => {
   const [iat] = describeClaims({ iat: NOW }, NOW);
   assert.doesNotMatch(iat.text, /\(/);
+});
+
+test('lifeLeft: fração do tempo restante entre iat e exp', () => {
+  assert.equal(lifeLeft({ iat: 0, exp: 100 }, 25), 0.75);
+  assert.equal(lifeLeft({ nbf: 50, iat: 0, exp: 100 }, 75), 0.5);
+});
+
+test('lifeLeft: vencido é 0, sem exp é null', () => {
+  assert.equal(lifeLeft({ iat: 0, exp: 100 }, 500), 0);
+  assert.equal(lifeLeft({ iat: 0 }, 50), null);
+  assert.equal(lifeLeft({ exp: 100 }, 50), null);
 });

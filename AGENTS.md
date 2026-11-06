@@ -16,12 +16,13 @@ src/jwt/                # núcleo puro (sem DOM, roda no Node)
   token.ts              #   decode, sign, verify
 src/ui/                 # tela
   dom.ts                #   atalhos de DOM
-  claims.ts             #   claims legíveis (puro, testado)
+  claims.ts atbash.ts   #   claims legíveis, vida do token e cifra Atbash (puros, testados)
   decoder.ts encoder.ts #   abas Decifrar e Selar
   tabs.ts               #   troca de aba
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
   icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
-  fx/                   #   efeitos metrô/fliperama: abertura, painel de partidas, trem, fim de fase
+  fx/                   #   metrô/fliperama: abertura, painel de partidas, trem, fim de fase,
+                        #   barra de vida (exp), conquistas, Konami (Atbash), leão no rodapé
                         #   (todos respeitam prefers-reduced-motion)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)

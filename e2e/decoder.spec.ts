@@ -11,7 +11,17 @@ test('o exemplo abre decifrado, com as claims legíveis', async ({ page }) => {
   await expect(page.locator('#d-header')).toContainText('"alg": "HS256"');
   await expect(page.locator('#d-payload')).toContainText('"name": "Belsazar"');
   await expect(page.locator('#d-claims')).toContainText('sub · Assunto');
-  await expect(page.locator('#d-claims')).toContainText('17/01/2018');
+  await expect(page.locator('#d-claims')).toContainText('exp · Expira em');
+});
+
+test('barra de vida mostra quanto resta até o exp', async ({ page }) => {
+  await expect(page.locator('#d-life')).toBeVisible();
+  await expect(page.locator('#d-life-text')).toHaveText(/^2\d%$/);
+  const token = await sign({ alg: 'HS256' }, { iat: 0, exp: 1000 }, 's');
+  await decodeWith(page, token, 's');
+  await expect(page.locator('#d-life-text')).toHaveText('K.O.');
+  await decodeWith(page, await sign({ alg: 'HS256' }, payload, 's'), 's');
+  await expect(page.locator('#d-life')).toBeHidden();
 });
 
 test('segredo errado reprova', async ({ page }) => {

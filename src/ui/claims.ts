@@ -33,3 +33,11 @@ export function describeClaims(payload: Json, now = Date.now() / 1000): Claim[] 
       text: claimText(name, value, now),
     }));
 }
+
+// Barra de vida do token: fração do tempo entre emissão (nbf ou iat) e exp que ainda resta.
+export function lifeLeft(payload: Json, now = Date.now() / 1000): number | null {
+  const { exp } = payload;
+  const start = payload.nbf ?? payload.iat;
+  if (typeof exp !== 'number' || typeof start !== 'number' || exp <= start) return null;
+  return Math.min(1, Math.max(0, (exp - now) / (exp - start)));
+}

@@ -4,6 +4,8 @@ import { isHmac } from '../jwt/algorithms.ts';
 import { generateKey } from '../jwt/generate.ts';
 import { type Header, type Json, sign } from '../jwt/token.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
+import { unlock } from './fx/achievements.ts';
+import { reducedMotion } from './fx/motion.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
@@ -28,6 +30,18 @@ function render(error = ''): void {
   $('e-token').replaceChildren(...parts.flatMap((part, i) => (i ? ['.', part] : [part])));
 }
 
+// Placar: soma um selo e, depois do carregamento, solta uma moedinha "+1".
+let ready = false;
+function addSeal(): void {
+  $('e-score').textContent = String(++seals).padStart(6, '0');
+  if (!ready) return;
+  unlock('seal');
+  if (reducedMotion) return;
+  const coin = el('span', '+1', 'plus-one');
+  $('e-score').after(coin);
+  coin.addEventListener('animationend', () => coin.remove());
+}
+
 let lastRun = 0;
 async function update(): Promise<void> {
   const run = ++lastRun;
@@ -42,7 +56,7 @@ async function update(): Promise<void> {
       base64Secret: hmac && base64().checked,
     });
     if (run !== lastRun) return;
-    if (signed !== token) $('e-score').textContent = String(++seals).padStart(6, '0');
+    if (signed !== token) addSeal();
     token = signed;
     render();
   } catch (error) {
@@ -58,6 +72,7 @@ async function generate(): Promise<void> {
     const { alg } = parseJson(field('e-header').value, 'O cabeçalho') as Header;
     const { privateKey, publicKey } = await generateKey(alg);
     field('e-key').value = privateKey;
+    unlock('forge');
     field('e-public').value = publicKey ?? '';
     base64().checked = false;
     await update();
@@ -69,6 +84,7 @@ async function generate(): Promise<void> {
 async function copy(): Promise<void> {
   if (!token) return;
   await navigator.clipboard.writeText(token);
+  unlock('copy');
   $('e-copy').replaceChildren(icon('check'), 'Copiado');
   setTimeout(() => $('e-copy').replaceChildren(icon('copy'), 'Copiar'), 1500);
 }
@@ -83,5 +99,6 @@ export async function setupEncoder({ header, payload, key }: Draft): Promise<str
   $('e-generate').addEventListener('click', generate);
   $('e-copy').addEventListener('click', copy);
   await update();
+  ready = true;
   return token;
 }

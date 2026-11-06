@@ -74,3 +74,39 @@ test('com animação reduzida: sem boot', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#boot')).toBeHidden();
 });
+
+test('código Konami cifra o lema em Atbash e desfaz', async ({ page }) => {
+  await openApp(page);
+  const motto = page.locator('#motto');
+  const konami = async () => {
+    for (const key of [
+      'ArrowUp',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'b',
+      'a',
+    ]) {
+      await page.keyboard.press(key);
+    }
+  };
+  await konami();
+  await expect(motto).toHaveText(/^Nvmv, Nvmv, Gvjfvo.*\(Jr 25:26\)$/);
+  await expect(page.locator('.toast')).toContainText('Achou a cifra de Jeremias');
+  await konami();
+  await expect(motto).toHaveText('Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.');
+});
+
+test('conquista aparece uma vez só, e não pelo exemplo inicial', async ({ page }) => {
+  await openApp(page);
+  await expect(page.locator('.toast')).toHaveCount(0);
+  await page.locator('#d-key').fill('errado');
+  await expect(page.locator('.toast')).toContainText('Tequel');
+  await page.locator('#d-key').fill('mene-mene-tequel-ufarsim');
+  await page.locator('#d-key').fill('errado de novo');
+  await expect(page.locator('.toast')).toHaveCount(1);
+});
