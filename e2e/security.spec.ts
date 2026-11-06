@@ -56,3 +56,17 @@ test('Trusted Types barra innerHTML', async ({ page, browserName }) => {
   });
   expect(blocked).toBe(true);
 });
+
+test('token e chave não ficam gravados nem na URL', async ({ page }) => {
+  await openApp(page);
+  const secret = 'segredo-que-nao-pode-vazar';
+  await page.locator('#d-key').fill(secret);
+  await page.getByRole('tab', { name: 'Selar' }).click();
+  await page.locator('#e-key').fill(secret);
+  const token = await page.locator('#d-token').inputValue();
+  const saved = await page.evaluate(() =>
+    [location.href, document.cookie, JSON.stringify(localStorage), JSON.stringify(sessionStorage)].join(' '),
+  );
+  expect(saved).not.toContain(secret);
+  expect(saved).not.toContain(token.split('.')[2]);
+});
