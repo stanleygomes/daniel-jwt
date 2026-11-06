@@ -1004,10 +1004,6 @@ footer p {
     transform: none;
   }
 }
-.den-caption {
-  color: var(--muted);
-  font: 12px var(--mono);
-}
 
 /* ---------- animações ---------- */
 @keyframes coin {
