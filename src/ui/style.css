@@ -282,40 +282,6 @@ output {
   animation: blink 1s steps(1) infinite;
 }
 
-/* ---------- HUD ---------- */
-.hud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 28px;
-  margin-top: 18px;
-  padding: 10px 16px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  clip-path: var(--corners);
-  color: var(--muted);
-  font: 13px var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-.hud strong {
-  color: var(--yellow);
-  font-weight: 400;
-  text-shadow: 0 0 8px var(--glow-c);
-}
-.hud-live {
-  color: var(--ok);
-}
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: var(--ok);
-  box-shadow: 0 0 10px var(--glow-ok);
-  animation: pulse 1.6s ease-in-out infinite;
-}
-
 /* ---------- botões e abas ---------- */
 button {
   display: inline-flex;
@@ -611,6 +577,11 @@ label.check input {
   margin: 10px 0;
   padding-left: 20px;
 }
+.ledger strong {
+  color: var(--yellow);
+  font-family: var(--mono);
+  font-weight: 400;
+}
 .ledger li {
   margin: 6px 0;
 }
@@ -698,12 +669,6 @@ footer p {
 @keyframes blink {
   50% {
     opacity: 0;
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: 0.35;
-    transform: scale(0.75);
   }
 }
 @keyframes spin {

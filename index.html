@@ -45,13 +45,6 @@
     <button id="theme" class="theme" type="button"></button>
   </header>
 
-  <div class="hud">
-    <span class="hud-live"><i class="dot"></i>uplink offline</span>
-    <span>pacotes para fora <strong id="t-requests">0</strong></span>
-    <span>bloqueios da CSP <strong id="t-blocked">0</strong></span>
-    <span>cripto <strong>webcrypto · local</strong></span>
-  </div>
-
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="decode" aria-selected="true"><span data-icon="decode"></span>Decifrar</button>
     <button type="button" role="tab" data-tab="encode" aria-selected="false"><span data-icon="encode"></span>Selar</button>
@@ -109,7 +102,7 @@
     <ul>
       <li>Tudo roda no seu navegador, com a WebCrypto nativa. Sem servidor, API, cookie, analytics ou dependência em produção.</li>
       <li>A política de segurança (CSP) proíbe qualquer conexão: <code>connect-src 'none'</code>.</li>
-      <li>O painel no topo mede, ao vivo, os pacotes enviados para fora e os bloqueios da CSP.</li>
+      <li>Ao vivo: pacotes para fora <strong id="t-requests">0</strong> · bloqueios da CSP <strong id="t-blocked">0</strong></li>
       <li>Leia antes de colar seu token:
         <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/jwt">src/jwt</a> (criptografia, ~150 linhas) e
         <a href="https://github.com/stanleygomes/daniel-jwt/tree/master/src/ui">src/ui</a> (tela e efeitos).

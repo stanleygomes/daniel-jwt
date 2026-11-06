@@ -21,13 +21,14 @@ Este site lê seu token e não leva nada. Não confie: confira. Tudo o que está
 | **Código pequeno e aberto** | A criptografia inteira cabe em [`src/jwt/`](src/jwt) (~150 linhas). A tela fica em [`src/ui/`](src/ui). O JS publicado não importa nada de fora. |
 | **Build rastreável** | Cada release tem atestação de proveniência assinada pelo GitHub. O rodapé mostra a versão e o commit no ar, com link para o código exato. |
 
-### O painel no topo da tela
+### Contadores ao vivo
 
-| Item | O que mostra |
+No painel de transparência, no fim da página:
+
+| Contador | O que mede |
 | --- | --- |
-| **Pacotes para fora** | Quantos arquivos a página baixou de outro domínio, medido ao vivo (`PerformanceObserver`, o mesmo dado da aba Network). Deve ficar em 0. |
+| **Pacotes para fora** | Quantos arquivos a página baixou de outro domínio (`PerformanceObserver`, o mesmo dado da aba Network). Deve ficar em 0. |
 | **Bloqueios da CSP** | Quantas vezes o navegador barrou algo proibido, como uma tentativa de enviar dados. Se alguém adulterar o JS para vazar seu token, sobe. |
-| **Uplink offline** / **Cripto webcrypto · local** | Rótulos fixos: lembram as garantias acima, não medem nada. |
 
 ### Confira você mesmo
 
