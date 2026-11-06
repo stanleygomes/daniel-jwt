@@ -2,7 +2,10 @@
 :root {
   color-scheme: light dark;
   --bg: light-dark(#f2e8d5, #14121a);
-  --grout: light-dark(rgb(27 27 31 / 0.07), rgb(242 232 213 / 0.045));
+  --dot: rgb(27 27 31 / 0.11);
+  --dirt-a: light-dark(#a8541e, #7a3d18);
+  --dirt-b: light-dark(#8f4519, #663213);
+  --grass: light-dark(#1e9e5a, #239c5c);
   --panel: light-dark(#fffbf2, #1e1b26);
   --ink: light-dark(#1b1b1f, #f2e8d5);
   --muted: light-dark(#6b6355, #a39bb0);
@@ -52,30 +55,57 @@
   color: #1b1b1f;
 }
 
-/* parede de azulejo antigo (tijolinho 2:1, fiadas desencontradas), só com CSS */
+/* claro: grade de tiles, como num editor de fases (um pixel a cada 16px) */
 body {
   margin: 0 auto;
   max-width: 1160px;
   padding: 0 16px 56px;
   background-color: var(--bg);
-  background-image:
-    conic-gradient(at 2px 50%, transparent 75%, var(--grout) 0),
-    conic-gradient(at 2px 50%, transparent 75%, var(--grout) 0),
-    linear-gradient(var(--grout) 2px, transparent 0);
-  background-size:
-    72px 72px,
-    72px 72px,
-    100% 36px;
-  background-position:
-    0 0,
-    36px 36px,
-    0 0;
+  background-image: conic-gradient(at 2px 2px, transparent 75%, var(--dot) 0);
+  background-size: 16px 16px;
   color: var(--ink);
   font: 400 17px / 1.55 var(--body);
   overflow-x: hidden;
   cursor:
     url("/cursor.svg") 0 0,
     default;
+}
+
+/* escuro: campo de estrelas em pixel (tamanhos primos para o padrão não se repetir à vista) */
+:root[data-theme="dark"] body {
+  background-image:
+    conic-gradient(at 2px 2px, transparent 75%, rgb(242 232 213 / 0.35) 0),
+    conic-gradient(at 2px 2px, transparent 75%, rgb(255 201 60 / 0.3) 0),
+    conic-gradient(at 2px 2px, transparent 75%, rgb(77 141 255 / 0.35) 0),
+    conic-gradient(at 3px 3px, transparent 75%, rgb(242 232 213 / 0.45) 0);
+  background-size:
+    97px 89px,
+    151px 163px,
+    233px 211px,
+    307px 283px;
+  background-position:
+    13px 41px,
+    70px 9px,
+    140px 120px,
+    30px 200px;
+}
+/* algumas estrelas piscam */
+:root[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    conic-gradient(at 2px 2px, transparent 75%, rgb(255 255 255 / 0.6) 0),
+    conic-gradient(at 2px 2px, transparent 75%, rgb(255 201 60 / 0.5) 0);
+  background-size:
+    191px 173px,
+    263px 239px;
+  background-position:
+    100px 60px,
+    20px 150px;
+  pointer-events: none;
+  animation: twinkle 3.2s steps(1) infinite;
 }
 
 a {
@@ -829,13 +859,25 @@ textarea::placeholder {
 /* ---------- cova dos leões: leão em pixel art patrulhando o rodapé ---------- */
 .den {
   position: relative;
-  height: 56px;
+  height: 72px;
   margin-top: 48px;
-  border-bottom: 4px solid var(--edge);
+}
+/* chão de pixel art: grama em cima, blocos de terra embaixo */
+.den::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 18px;
+  border-top: 3px solid var(--edge);
+  background:
+    linear-gradient(var(--grass) 0 5px, transparent 5px),
+    repeating-conic-gradient(var(--dirt-a) 0 25%, var(--dirt-b) 0 50%) 0 5px / 10px 10px;
 }
 .lion-walk {
   position: absolute;
-  bottom: 4px;
+  bottom: 18px;
   left: 0;
   width: 68px;
   height: 44px;
@@ -1110,6 +1152,11 @@ textarea::placeholder {
   100% {
     transform: none;
     opacity: 0;
+  }
+}
+@keyframes twinkle {
+  50% {
+    opacity: 0.15;
   }
 }
 @keyframes blink {
