@@ -140,34 +140,6 @@ output {
   animation: crt-off 0.6s ease-in forwards;
 }
 
-/* ---------- letreiro de LED ---------- */
-.ticker {
-  position: relative;
-  overflow: hidden;
-  margin: 0 calc(50% - 50vw); /* de ponta a ponta da tela */
-  border-bottom: 4px solid var(--edge);
-  background: var(--board);
-  color: var(--led);
-  font: 11px / 36px var(--pixel);
-  text-transform: uppercase;
-  text-shadow: 0 0 6px rgb(255 176 0 / 0.7);
-  white-space: nowrap;
-}
-/* matriz de pontos por cima */
-.ticker::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.45) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(to right, rgb(0 0 0 / 0.45) 0 1px, transparent 1px 3px);
-  pointer-events: none;
-}
-.ticker-track {
-  display: inline-block;
-  animation: ticker 45s linear infinite;
-}
-
 /* ---------- placa da estação ---------- */
 .masthead {
   display: grid;
@@ -669,11 +641,6 @@ footer p {
 @keyframes blink {
   50% {
     opacity: 0;
-  }
-}
-@keyframes ticker {
-  to {
-    transform: translateX(-50%);
   }
 }
 @keyframes train {
