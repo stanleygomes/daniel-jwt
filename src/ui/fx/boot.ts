@@ -3,8 +3,11 @@
 import { $ } from '../dom.ts';
 import { reducedMotion } from './motion.ts';
 
-const SEEN_KEY = 'daniel-booted';
-const LINE_MS = 260;
+const SEEN_KEY = 'daniel-booted-at';
+const DAY_MS = 24 * 60 * 60 * 1000;
+// tudo em até 1s: 10 linhas × 50ms + 150ms parado + 300ms do CRT desligando
+const LINE_MS = 50;
+const HOLD_MS = 150;
 
 const lines = (version: string): string[] => [
   `DANIEL v${version}`,
@@ -19,15 +22,17 @@ const lines = (version: string): string[] => [
   'MENE MENE TEQUEL UFARSIM',
 ];
 
-// sessionStorage pode não existir (aba privada, site bloqueado): aí o boot roda sempre.
+// No máximo uma vez por dia neste navegador (F5 e aba nova não repetem).
+// Sem localStorage (aba privada, site bloqueado): aí não roda, para não repetir.
 function seen(): boolean {
   try {
-    if (sessionStorage.getItem(SEEN_KEY)) return true;
-    sessionStorage.setItem(SEEN_KEY, '1');
+    const last = Number(localStorage.getItem(SEEN_KEY));
+    if (Date.now() - last < DAY_MS) return true;
+    localStorage.setItem(SEEN_KEY, String(Date.now()));
+    return false;
   } catch {
-    // segue sem lembrar
+    return true;
   }
-  return false;
 }
 
 export function boot(version: string): void {
@@ -51,7 +56,7 @@ export function boot(version: string): void {
   };
   const timer = setInterval(() => {
     log.textContent = all.slice(0, ++shown).join('\n');
-    if (shown >= all.length) setTimeout(finish, 500);
+    if (shown >= all.length) setTimeout(finish, HOLD_MS);
   }, LINE_MS);
 
   screen.addEventListener('click', finish);

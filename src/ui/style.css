@@ -152,7 +152,7 @@ output {
   text-align: center;
   cursor: pointer;
   /* rede de segurança: sem JS, some sozinho */
-  animation: boot-timeout 0s 8s forwards;
+  animation: boot-timeout 0s 1.5s forwards;
 }
 .boot pre {
   width: auto;
@@ -172,7 +172,7 @@ output {
   animation: blink 0.9s steps(1) infinite;
 }
 .boot.off {
-  animation: crt-off 0.6s ease-in forwards;
+  animation: crt-off 0.3s ease-in forwards;
 }
 
 /* ---------- cabeçalho ---------- */

@@ -49,13 +49,13 @@ test('celular: sem rolagem lateral', async ({ browser }) => {
 test.describe('com animação', () => {
   test.use({ reducedMotion: 'no-preference' });
 
-  test('boot aparece na 1ª visita, pula com tecla e não volta na sessão', async ({ page }) => {
+  test('boot aparece na 1ª visita, some em até 1s e não volta no F5', async ({ page }) => {
     await page.goto('/');
     const boot = page.locator('#boot');
     await expect(boot).toBeVisible();
-    await expect(page.locator('#boot-log')).toContainText('BABILÔNIA');
-    await page.keyboard.press('Enter');
-    await expect(boot).toBeHidden();
+    await expect(page.locator('#boot-log')).toContainText('DANIEL');
+    // some sozinho: 1s de animação, com folga para o carregamento do teste
+    await expect(boot).toBeHidden({ timeout: 1500 });
     await page.reload();
     await expect(boot).toBeHidden();
   });

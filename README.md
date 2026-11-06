@@ -20,7 +20,7 @@ Este site lê seu token e não leva nada. Não confie: confira. Tudo o que está
 | --- | --- |
 | **Nada sai do navegador** | A CSP de [`vercel.json`](vercel.json) tem `connect-src 'none'`: o navegador recusa qualquer `fetch`, XHR, WebSocket ou beacon. |
 | **Sem injeção de script** | A CSP exige Trusted Types (`require-trusted-types-for 'script'`, sem nenhuma política): `innerHTML` e afins com texto são recusados pelo navegador. A tela só usa `textContent`. |
-| **Nada gravado** | Token e chave ficam só nos campos da tela: nunca vão para cookie, `localStorage`, `sessionStorage` ou URL (há teste e2e para isso). O navegador só guarda o tema e as conquistas. |
+| **Nada gravado** | Token e chave ficam só nos campos da tela: nunca vão para cookie, `localStorage`, `sessionStorage` ou URL (há teste e2e para isso). O navegador só guarda o tema, o recorde, as conquistas e quando a abertura passou. |
 | **Sem servidor** | Assinar e verificar usam a WebCrypto nativa do navegador. Não existe API. |
 | **Sem rastreio** | Nada de cookie, analytics, CDN ou script de terceiros. Fontes (Bungee, Bungee Shade, Overpass, Press Start 2P) e ícones (Lucide) vêm do próprio site. |
 | **Código pequeno e aberto** | A criptografia inteira cabe em [`src/jwt/`](src/jwt) (~150 linhas). A tela fica em [`src/ui/`](src/ui). O JS publicado não importa nada de fora. |
