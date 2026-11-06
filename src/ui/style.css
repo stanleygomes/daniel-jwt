@@ -171,21 +171,6 @@ output {
   font: 400 clamp(46px, 11vw, 100px) / 1 var(--shade);
   letter-spacing: 0.02em;
 }
-.lines {
-  display: flex;
-  gap: 6px;
-  margin: 0;
-}
-.bullet {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--c);
-  color: #fff;
-  font: 400 14px var(--display);
-}
 
 /* painel de partidas: plaquinhas que giram (fx/text.ts) */
 .board {
