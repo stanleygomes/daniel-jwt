@@ -1,4 +1,4 @@
-// Painel de partidas: as letras giram e assentam da esquerda para a direita.
+// Letreiro de plaquinhas: as letras giram e assentam da esquerda para a direita.
 
 import { randomGlyph, reducedMotion } from './motion.ts';
 

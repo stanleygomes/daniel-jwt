@@ -1,4 +1,4 @@
-// Mapa da linha: cada parte do token é uma estação, e um trem percorre a linha.
+// Mapa de fases: cada parte do token é uma fase, e o leão atravessa as três.
 
 import { $ } from '../dom.ts';
 
@@ -10,6 +10,6 @@ export function showRoute(token: string | null): void {
   });
   route.classList.toggle('off', !token);
   route.classList.remove('run');
-  void route.offsetWidth; // reinicia o trem a cada token novo
+  void route.offsetWidth; // reinicia a travessia a cada token novo
   if (token) route.classList.add('run');
 }

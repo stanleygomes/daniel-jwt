@@ -21,13 +21,13 @@ src/ui/                 # tela
   tabs.ts               #   troca de aba
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
   icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
-  fx/                   #   metrô/fliperama: abertura, painel de partidas, trem, fim de fase,
+  fx/                   #   fliperama: abertura, letreiro de plaquinhas, mapa de fases, fim de fase,
                         #   barra de vida (exp), conquistas, Konami (Atbash), leão no rodapé
                         #   (todos respeitam prefers-reduced-motion)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
-  style.css             #   metrô + fliperama (azulejo claro, estação escura)
-public/logo.svg         # logo: D desenhado como linha de metrô (também favicon)
+  style.css             #   fliperama retrô (azulejo claro, fliperama escuro)
+public/logo.svg         # logo: D em três partes, como o token (também favicon)
 public/og.jpg           # preview de link (1200×630); URL absoluta no <head> do index.html
 docs/screenshot.jpg     # print da tela no README
 test/*.test.ts          # unitários: node --test (chaves reais do openssl em test/fixtures/)

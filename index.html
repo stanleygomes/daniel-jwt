@@ -30,7 +30,7 @@
   <header class="masthead">
     <img class="logo" src="/logo.svg" alt="Logo do Daniel" width="112" height="112">
     <div class="title">
-      <p class="kicker">Estação Babilônia · Linha JWT</p>
+      <p class="kicker">Decifrador de JWT · Babilônia, 539 a.C.</p>
       <h1 class="sign">DANIEL</h1>
     </div>
     <button id="theme" class="theme" type="button"></button>
@@ -54,11 +54,14 @@
         <p id="d-status" class="status" role="status"></p>
       </div>
       <div class="col">
-        <ol id="d-route" class="route" aria-label="Partes do token">
-          <li class="stop part-0"><b>Cabeçalho</b><small></small></li>
-          <li class="stop part-1"><b>Conteúdo</b><small></small></li>
-          <li class="stop part-2"><b>Assinatura</b><small></small></li>
-        </ol>
+        <div class="map">
+          <ol id="d-route" class="route" aria-label="Partes do token">
+            <li class="stage part-0" data-stage="1"><b>Cabeçalho</b><small></small></li>
+            <li class="stage part-1" data-stage="2"><b>Conteúdo</b><small></small></li>
+            <li class="stage part-2" data-stage="3"><b>Assinatura</b><small></small></li>
+          </ol>
+          <span class="runner" aria-hidden="true"><span class="lion"></span></span>
+        </div>
         <h2 class="part-0">Cabeçalho</h2>
         <pre id="d-header"></pre>
         <h2 class="part-1">Conteúdo</h2>
@@ -115,7 +118,7 @@
 
   <div class="den" aria-hidden="true"><span class="lion-walk"><span class="lion"></span></span></div>
   <footer>
-    <p class="eol">● Fim da linha ●</p>
+    <p class="eol">★ Obrigado por jogar ★</p>
     <p>HS, RS, PS, ES e EdDSA. Código aberto, licença MIT.</p>
     <p><a id="build" href="https://github.com/stanleygomes/daniel-jwt/releases">releases</a></p>
   </footer>

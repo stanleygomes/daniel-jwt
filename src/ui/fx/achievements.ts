@@ -11,7 +11,7 @@ const ACHIEVEMENTS = {
   expired: ['Mene', 'Contou os dias de um token vencido.'],
   forge: ['Ferreiro', 'Forjou uma chave nova.'],
   copy: ['Mensageiro', 'Copiou um token selado.'],
-  night: ['Turno da noite', 'Desceu para a estação escura.'],
+  night: ['Turno da noite', 'Apagou as luzes do fliperama.'],
   konami: ['↑↑↓↓←→←→BA', 'Achou a cifra de Jeremias.'],
 } as const;
 
