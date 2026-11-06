@@ -656,10 +656,6 @@ label.check input {
   color: var(--l3);
   text-shadow: 6px 6px 0 var(--shadow);
 }
-.verdict.bad {
-  color: var(--l1);
-  text-shadow: 6px 6px 0 var(--shadow);
-}
 .verdict.show {
   animation: verdict 1.4s steps(14);
 }

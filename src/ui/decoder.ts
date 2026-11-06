@@ -39,10 +39,10 @@ let lastKind: Status[0] | null = null;
 function setStatus([kind, text]: Status): void {
   const scored = kind === 'ok' || kind === 'bad';
   if (scored && lastKind !== null && kind !== lastKind) {
-    flashVerdict(kind);
     // ganhar ou perder só na virada, para não perder vida a cada tecla
     if (kind === 'bad') loseLife();
     else {
+      flashVerdict();
       setLives();
       addPoints(100, $('d-status'));
     }

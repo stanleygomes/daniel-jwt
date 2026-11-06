@@ -60,13 +60,15 @@ test.describe('com animação', () => {
     await expect(boot).toBeHidden();
   });
 
-  test('veredito pisca em tela cheia quando a assinatura muda', async ({ page }) => {
+  test('assinatura válida mostra STAGE CLEAR; inválida não cobre a tela', async ({ page }) => {
     await page.goto('/');
-    await page.keyboard.press('Enter');
     await expect(page.locator('#d-status')).toHaveText('Assinatura válida.');
     await page.locator('#d-key').fill('outro');
+    await expect(page.locator('#d-status')).toHaveClass(/bad/);
+    await expect(page.locator('#verdict')).not.toHaveClass(/show/);
+    await page.locator('#d-key').fill('mene-mene-tequel-ufarsim');
     await expect(page.locator('#verdict')).toHaveClass(/show/);
-    await expect(page.locator('#verdict')).toHaveText('GAME OVER');
+    await expect(page.locator('#verdict')).toHaveText('STAGE CLEAR');
   });
 });
 
