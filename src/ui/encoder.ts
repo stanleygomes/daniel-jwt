@@ -5,7 +5,7 @@ import { generateKey } from '../jwt/generate.ts';
 import { type Header, type Json, sign } from '../jwt/token.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { unlock } from './fx/achievements.ts';
-import { reducedMotion } from './fx/motion.ts';
+import { addPoints, pop } from './fx/score.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
@@ -36,10 +36,7 @@ function addSeal(): void {
   $('e-score').textContent = String(++seals).padStart(6, '0');
   if (!ready) return;
   unlock('seal');
-  if (reducedMotion) return;
-  const coin = el('span', '+1', 'plus-one');
-  $('e-score').after(coin);
-  coin.addEventListener('animationend', () => coin.remove());
+  addPoints(10, $('e-score'));
 }
 
 let lastRun = 0;
@@ -73,6 +70,8 @@ async function generate(): Promise<void> {
     const { privateKey, publicKey } = await generateKey(alg);
     field('e-key').value = privateKey;
     unlock('forge');
+    addPoints(200, $('e-generate'));
+    pop($('e-key'), 'POWER UP!');
     field('e-public').value = publicKey ?? '';
     base64().checked = false;
     await update();

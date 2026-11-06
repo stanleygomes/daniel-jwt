@@ -3,6 +3,7 @@
 import { atbash } from '../atbash.ts';
 import { $ } from '../dom.ts';
 import { unlock } from './achievements.ts';
+import { pop, setLives } from './score.ts';
 import { flap } from './text.ts';
 
 const CODE = [
@@ -30,5 +31,7 @@ export function listenKonami(): void {
     ciphered = !ciphered;
     flap(motto, ciphered ? `${atbash(original)} (Jr 25:26)` : original, 60);
     unlock('konami');
+    setLives(30);
+    pop($('hud-lives'), '+30 VIDAS');
   });
 }

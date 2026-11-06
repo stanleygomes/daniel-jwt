@@ -71,6 +71,9 @@ body {
   color: var(--ink);
   font: 400 17px / 1.55 var(--body);
   overflow-x: hidden;
+  cursor:
+    url("/cursor.svg") 0 0,
+    default;
 }
 
 a {
@@ -439,23 +442,23 @@ output .part-2 {
 }
 
 /* claims como tabela de recordes */
-dl {
+#d-claims {
   display: grid;
   grid-template-columns: auto 1fr;
   margin: 16px 0 0;
 }
-dt,
-dd {
+#d-claims dt,
+#d-claims dd {
   padding: 8px 0;
   border-bottom: 2px dotted var(--edge);
 }
-dt {
+#d-claims dt {
   padding-right: 16px;
   color: var(--muted);
   font: 9px / 1.8 var(--pixel);
   text-transform: uppercase;
 }
-dd {
+#d-claims dd {
   margin: 0;
   font: 14px var(--mono);
 }
@@ -655,16 +658,6 @@ footer p {
   background: var(--coin);
   animation: coin 1.2s steps(4) infinite;
 }
-.plus-one {
-  position: absolute;
-  right: 0;
-  bottom: 100%;
-  color: var(--coin);
-  font: 12px var(--pixel);
-  text-shadow: 2px 2px 0 var(--shadow);
-  pointer-events: none;
-  animation: plus-one 0.8s ease-out forwards;
-}
 
 /* barra de vida do token (exp), como em jogo de luta */
 .life {
@@ -738,6 +731,63 @@ footer p {
 .toast-title {
   font: 400 15px var(--display);
 }
+/* placar no canto do cabeçalho: pontos, recorde e vidas (fx/score.ts) */
+.side {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  align-self: start;
+}
+.hud {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 6px 12px;
+  margin: 4px 0 0;
+  font: 10px / 1.4 var(--pixel);
+  text-transform: uppercase;
+}
+.hud dt {
+  color: var(--l1);
+}
+.hud dd {
+  margin: 0;
+  text-align: right;
+}
+.lives i {
+  color: var(--l1);
+  font: 15px / 1 var(--body);
+  font-style: normal;
+}
+.lives i.lost {
+  color: var(--edge);
+  opacity: 0.35;
+}
+.lives.out {
+  color: var(--coin);
+  animation: blink 0.8s steps(1) infinite;
+}
+.pop {
+  position: fixed;
+  z-index: 75;
+  translate: -50% 0;
+  color: var(--coin);
+  font: 12px var(--pixel);
+  text-shadow: 2px 2px 0 #1b1b1f;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pop 0.9s ease-out forwards;
+}
+.status.idle {
+  border-style: dashed;
+  color: var(--muted);
+  font: 11px var(--pixel);
+  animation: blink 1.2s steps(1) infinite;
+}
+textarea::placeholder {
+  color: var(--muted);
+  font: 11px / 2 var(--pixel);
+}
+
 /* ---------- cova dos leões: leão em pixel art patrulhando o rodapé ---------- */
 .den {
   position: relative;
@@ -1004,9 +1054,9 @@ footer p {
     transform: scaleX(0.15);
   }
 }
-@keyframes plus-one {
+@keyframes pop {
   to {
-    transform: translateY(-24px);
+    transform: translateY(-36px);
     opacity: 0;
   }
 }
@@ -1125,6 +1175,17 @@ footer p {
 @media (max-width: 760px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+  /* placar vira uma linha própria no cabeçalho */
+  .side {
+    display: contents;
+  }
+  .hud {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(6, auto);
+    justify-content: space-between;
+    margin: 0;
   }
   .masthead {
     gap: 14px;

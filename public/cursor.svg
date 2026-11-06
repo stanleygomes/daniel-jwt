@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 12 12" shape-rendering="crispEdges">
+  <title>Cursor</title>
+  <path fill="#1b1b1f" d="M0 0h1v1H0zM0 1h1v9H0zM1 1h1v1H1zM2 2h1v1H2zM3 3h1v1H3zM4 4h1v1H4zM5 5h1v1H5zM6 6h1v1H6zM7 7h1v1H7zM4 7h3v1H4zM1 9h1v1H1zM2 8h1v1H2zM3 7h1v1H3zM4 8h1v2H4zM5 10h1v1H5zM6 9h1v2H6zM5 8h1v1H5z"/>
+  <path fill="#f7b500" d="M1 2h1v7H1zM2 3h1v5H2zM3 4h1v3H3zM4 5h1v2H4zM5 6h1v1H5zM5 9h1v1H5z"/>
+</svg>

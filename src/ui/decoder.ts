@@ -7,12 +7,13 @@ import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { unlock } from './fx/achievements.ts';
 import { showLife } from './fx/life.ts';
 import { showRoute } from './fx/route.ts';
+import { addPoints, loseLife, setLives } from './fx/score.ts';
 import { flap } from './fx/text.ts';
 import { flashVerdict } from './fx/verdict.ts';
 import { icon } from './icons.ts';
 import { keyLabel } from './keyLabel.ts';
 
-type Status = [kind: '' | 'ok' | 'bad', text: string];
+type Status = [kind: '' | 'idle' | 'ok' | 'bad', text: string];
 
 async function verdict(
   token: string,
@@ -35,10 +36,19 @@ async function verdict(
 let lastKind: Status[0] | null = null;
 
 function setStatus([kind, text]: Status): void {
-  if (kind && lastKind !== null && kind !== lastKind) flashVerdict(kind);
+  const scored = kind === 'ok' || kind === 'bad';
+  if (scored && lastKind !== null && kind !== lastKind) {
+    flashVerdict(kind);
+    // ganhar ou perder só na virada, para não perder vida a cada tecla
+    if (kind === 'bad') loseLife();
+    else {
+      setLives();
+      addPoints(100, $('d-status'));
+    }
+  }
   lastKind = kind;
   $('d-status').className = `status ${kind}`;
-  $('d-status').replaceChildren(...(kind ? [icon(kind === 'ok' ? 'valid' : 'invalid', 20)] : []), text);
+  $('d-status').replaceChildren(...(scored ? [icon(kind === 'ok' ? 'valid' : 'invalid', 20)] : []), text);
 }
 
 function render(jwt: Decoded | null): void {
@@ -76,7 +86,7 @@ async function update(): Promise<void> {
     render(null);
     showRoute(null);
     lastToken = '';
-    setStatus(['', '']);
+    setStatus(token ? ['', ''] : ['idle', 'INSERT TOKEN']);
     return;
   }
   $('d-error').textContent = '';

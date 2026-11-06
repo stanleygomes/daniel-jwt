@@ -96,6 +96,7 @@ test('código Konami cifra o lema em Atbash e desfaz', async ({ page }) => {
   };
   await konami();
   await expect(motto).toHaveText(/^Nvmv, Nvmv, Gvjfvo.*\(Jr 25:26\)$/);
+  await expect(page.locator('#hud-lives')).toHaveText('♥×30');
   await expect(page.locator('.toast')).toContainText('Achou a cifra de Jeremias');
   await konami();
   await expect(motto).toHaveText('Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.');
@@ -109,4 +110,34 @@ test('conquista aparece uma vez só, e não pelo exemplo inicial', async ({ page
   await page.locator('#d-key').fill('mene-mene-tequel-ufarsim');
   await page.locator('#d-key').fill('errado de novo');
   await expect(page.locator('.toast')).toHaveCount(1);
+});
+
+test('placar: assinatura errada tira vida, a certa devolve e dá pontos', async ({ page }) => {
+  await openApp(page);
+  const lives = page.locator('#hud-lives');
+  await expect(lives.locator('i:not(.lost)')).toHaveCount(3);
+  await page.locator('#d-key').fill('errado');
+  await expect(lives.locator('i:not(.lost)')).toHaveCount(2);
+  await page.locator('#d-key').fill('mene-mene-tequel-ufarsim');
+  await expect(lives.locator('i:not(.lost)')).toHaveCount(3);
+  // 500 da conquista Tequel + 100 da assinatura válida
+  await expect(page.locator('#hud-score')).toHaveText('000600');
+  await expect(page.locator('#hud-hi')).toHaveText('000600');
+});
+
+test('sem vidas aparece CONTINUE?', async ({ page }) => {
+  await openApp(page);
+  for (let i = 0; i < 3; i++) {
+    await page.locator('#d-key').fill(`errado ${i}`);
+    await expect(page.locator('#d-status')).toHaveClass(/bad/);
+    await page.locator('#d-key').fill('');
+    await expect(page.locator('#d-status')).not.toHaveClass(/bad/);
+  }
+  await expect(page.locator('#hud-lives')).toHaveText('CONTINUE?');
+});
+
+test('campo vazio pede INSERT TOKEN', async ({ page }) => {
+  await openApp(page);
+  await page.locator('#d-token').fill('');
+  await expect(page.locator('#d-status')).toHaveText('INSERT TOKEN');
 });

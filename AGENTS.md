@@ -22,7 +22,7 @@ src/ui/                 # tela
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
   icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
   fx/                   #   fliperama: abertura, letreiro de plaquinhas, mapa de fases, fim de fase,
-                        #   barra de vida (exp), conquistas, Konami (Atbash), leão no rodapé
+                        #   barra de vida (exp), placar/vidas/recorde, conquistas, Konami (Atbash), leão
                         #   (todos respeitam prefers-reduced-motion)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)

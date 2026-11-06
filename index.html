@@ -33,7 +33,14 @@
       <p class="kicker">Decifrador de JWT · Babilônia, 539 a.C.</p>
       <h1 class="sign">DANIEL</h1>
     </div>
-    <button id="theme" class="theme" type="button"></button>
+    <div class="side">
+      <dl class="hud" aria-label="Placar">
+        <dt>1UP</dt><dd id="hud-score">000000</dd>
+        <dt>HI</dt><dd id="hud-hi">000000</dd>
+        <dt>Vidas</dt><dd id="hud-lives" class="lives"></dd>
+      </dl>
+      <button id="theme" class="theme" type="button"></button>
+    </div>
     <p id="motto" class="board">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
   </header>
 
@@ -46,7 +53,7 @@
     <section id="decode" class="grid">
       <div class="col">
         <label for="d-token">Token</label>
-        <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off"></textarea>
+        <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off" placeholder="INSERT TOKEN ▶ cole um JWT aqui"></textarea>
         <p id="d-error" class="error" role="alert"></p>
         <label for="d-key" id="d-key-label">Segredo</label>
         <textarea id="d-key" rows="4" spellcheck="false" autocomplete="off"></textarea>

@@ -2,6 +2,7 @@
 // Lembradas neste navegador (localStorage); sem armazenamento, só não lembra.
 
 import { $, el } from '../dom.ts';
+import { addPoints } from './score.ts';
 
 const ACHIEVEMENTS = {
   seal: ['Primeiro selo', 'Assinou um token com as próprias mãos.'],
@@ -47,5 +48,6 @@ export function unlock(id: Achievement): void {
     el('p', text),
   );
   $('toasts').append(toast);
+  addPoints(500);
   setTimeout(() => toast.remove(), TOAST_MS);
 }
