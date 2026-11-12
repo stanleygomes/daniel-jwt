@@ -14,11 +14,11 @@
     "lint:ci": "biome ci ."
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.5",
+    "@biomejs/biome": "2.6.6",
     "@playwright/test": "1.65.0",
     "@types/node": "26.6.6",
     "typescript": "7.0.2",
-    "vite": "8.3.6"
+    "vite": "8.3.7"
   },
   "dependencies": {
     "@fontsource/bungee": "5.3.0",
@@ -26,6 +26,6 @@
     "@fontsource/overpass": "5.3.0",
     "@fontsource/overpass-mono": "5.3.0",
     "@fontsource/press-start-2p": "5.3.0",
-    "lucide": "1.69.0"
+    "lucide": "1.70.0"
   }
 }
