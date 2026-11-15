@@ -1,4 +1,4 @@
-// Placar de fliperama: pontos (1UP), recorde (HI, lembrado no navegador) e vidas.
+// Placar da bilheteria: pontos, recorde (lembrado no navegador) e ingressos (as vidas).
 
 import { $, el } from '../dom.ts';
 import { reducedMotion } from './motion.ts';
@@ -20,7 +20,7 @@ function readHi(): number {
 
 const pad = (n: number): string => String(n).padStart(6, '0');
 
-// Texto que sobe e some em cima de um elemento ("+100", "POWER UP").
+// Etiqueta que sobe e some em cima de um elemento ("+100", "CHAVE NOVA!").
 export function pop(target: HTMLElement, text: string): void {
   if (reducedMotion) return;
   const box = target.getBoundingClientRect();
@@ -45,13 +45,14 @@ export function addPoints(points: number, from: HTMLElement = $('hud-score')): v
   }
 }
 
+// Cada ingresso é um <i> desenhado no CSS (canhoto com recortes).
 function paintLives(): void {
   const box = $('hud-lives');
-  box.ariaLabel = `${lives} vidas`;
+  box.ariaLabel = `${lives} ingressos`;
   box.classList.toggle('out', lives === 0);
-  if (lives === 0) box.replaceChildren('CONTINUE?');
-  else if (lives > FULL) box.replaceChildren(el('i', '♥'), `×${lives}`);
-  else box.replaceChildren(...Array.from({ length: FULL }, (_, i) => el('i', '♥', i < lives ? '' : 'lost')));
+  if (lives === 0) box.replaceChildren('ESGOTADO');
+  else if (lives > FULL) box.replaceChildren(el('i', ''), `×${lives}`);
+  else box.replaceChildren(...Array.from({ length: FULL }, (_, i) => el('i', '', i < lives ? '' : 'lost')));
 }
 
 export function loseLife(): void {
@@ -59,7 +60,7 @@ export function loseLife(): void {
   paintLives();
 }
 
-// Assinatura válida devolve as vidas (o código Konami dá 30, como no Contra).
+// Assinatura válida devolve os ingressos (o código Konami dá 30).
 export function setLives(count = FULL): void {
   lives = Math.max(lives, count);
   paintLives();

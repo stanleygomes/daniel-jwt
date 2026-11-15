@@ -4,7 +4,7 @@ import { atbash } from '../atbash.ts';
 import { $ } from '../dom.ts';
 import { unlock } from './achievements.ts';
 import { pop, setLives } from './score.ts';
-import { flap } from './text.ts';
+import { typeOut } from './text.ts';
 
 const CODE = [
   'ArrowUp',
@@ -29,9 +29,9 @@ export function listenKonami(): void {
     if (typed.join() !== CODE.join()) return;
     typed = [];
     ciphered = !ciphered;
-    flap(motto, ciphered ? `${atbash(original)} (Jr 25:26)` : original, 60);
+    typeOut(motto, ciphered ? `${atbash(original)} (Jr 25:26)` : original);
     unlock('konami');
     setLives(30);
-    pop($('hud-lives'), '+30 VIDAS');
+    pop($('hud-lives'), '+30 INGRESSOS');
   });
 }

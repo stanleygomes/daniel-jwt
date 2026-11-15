@@ -7,8 +7,9 @@ import { $ } from './ui/dom.ts';
 import { type Draft, setupEncoder } from './ui/encoder.ts';
 import { boot } from './ui/fx/boot.ts';
 import { listenKonami } from './ui/fx/konami.ts';
+import { mountLions } from './ui/fx/lion.ts';
 import { setupScore } from './ui/fx/score.ts';
-import { flap } from './ui/fx/text.ts';
+import { typeOut } from './ui/fx/text.ts';
 import { mountIcons } from './ui/icons.ts';
 import { setupTabs } from './ui/tabs.ts';
 import { setupTheme } from './ui/theme.ts';
@@ -25,11 +26,12 @@ const SAMPLE: Draft = {
 setupTheme(); // antes de tudo: a página só aparece com o tema definido
 boot(__VERSION__);
 mountIcons();
+mountLions();
 watchNetwork();
 showBuild();
 setupScore();
 setupTabs();
-flap($('motto'), $('motto').textContent ?? '', 60);
+typeOut($('motto'), $('motto').textContent ?? '');
 listenKonami();
 const token = await setupEncoder(SAMPLE);
 await setupDecoder(token, SAMPLE.key);

@@ -5,10 +5,10 @@ import { type Decoded, decode, verify } from '../jwt/token.ts';
 import { describeClaims } from './claims.ts';
 import { $, el, errorMessage, field, pretty } from './dom.ts';
 import { unlock } from './fx/achievements.ts';
+import { tear } from './fx/glitch.ts';
 import { showLife } from './fx/life.ts';
 import { showRoute } from './fx/route.ts';
 import { addPoints, loseLife, setLives } from './fx/score.ts';
-import { flap } from './fx/text.ts';
 import { flashVerdict } from './fx/verdict.ts';
 import { paintJson, paintToken } from './highlight.ts';
 import { icon } from './icons.ts';
@@ -40,8 +40,10 @@ function setStatus([kind, text]: Status): void {
   const scored = kind === 'ok' || kind === 'bad';
   if (scored && lastKind !== null && kind !== lastKind) {
     // ganhar ou perder só na virada, para não perder vida a cada tecla
-    if (kind === 'bad') loseLife();
-    else {
+    if (kind === 'bad') {
+      loseLife();
+      queueMicrotask(() => tear($('d-status')));
+    } else {
       flashVerdict();
       setLives();
       addPoints(100, $('d-status'));
@@ -57,8 +59,7 @@ function render(jwt: Decoded | null): void {
     ['d-header', jwt?.header],
     ['d-payload', jwt?.payload],
   ] as const) {
-    const text = value ? pretty(value) : '';
-    flap($(id), text, 22, () => paintJson($(id), text));
+    paintJson($(id), value ? pretty(value) : '');
   }
   $('d-claims').replaceChildren(
     ...describeClaims(jwt?.payload ?? {}).flatMap(({ label, text }) => [el('dt', label), el('dd', text)]),
@@ -94,7 +95,7 @@ async function update(): Promise<void> {
     render(null);
     showRoute(null);
     lastToken = '';
-    setStatus(token ? ['', ''] : ['idle', 'INSERT TOKEN']);
+    setStatus(token ? ['', ''] : ['idle', 'SEM TOKEN EM CARTAZ']);
     return;
   }
   $('d-error').textContent = '';

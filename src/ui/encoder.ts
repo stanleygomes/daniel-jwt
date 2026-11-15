@@ -14,7 +14,7 @@ import { showTab } from './tabs.ts';
 export type Draft = { header: Header; payload: Json; key: string };
 
 let token = '';
-let seals = 0; // placar de fliperama: quantos tokens já foram selados
+let seals = 0; // placar: quantos tokens já foram selados
 
 const base64 = (): HTMLInputElement => $<HTMLInputElement>('e-b64');
 const algSelect = (): HTMLSelectElement => $<HTMLSelectElement>('e-alg');
@@ -33,7 +33,7 @@ function render(error = ''): void {
   $('e-token').replaceChildren(...parts.flatMap((part, i) => (i ? ['.', part] : [part])));
 }
 
-// Placar: soma um selo e, depois do carregamento, solta uma moedinha "+1".
+// Placar: soma um selo e, depois do carregamento, solta a etiqueta "+10".
 let ready = false;
 function addSeal(): void {
   $('e-score').textContent = String(++seals).padStart(6, '0');
@@ -76,7 +76,7 @@ async function generate(): Promise<void> {
     field('e-key').value = privateKey;
     unlock('forge');
     addPoints(200, $('e-generate'));
-    pop($('e-key'), 'POWER UP!');
+    pop($('e-key'), 'CHAVE NOVA!');
     field('e-public').value = publicKey ?? '';
     base64().checked = false;
     await update();

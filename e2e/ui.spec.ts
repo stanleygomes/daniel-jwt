@@ -50,7 +50,8 @@ test.describe('com animação', () => {
   test.use({ reducedMotion: 'no-preference' });
 
   test('boot aparece na 1ª visita, some em até 1s e não volta no F5', async ({ page }) => {
-    await page.goto('/');
+    // sem esperar o load (fontes): a abertura dura menos que isso
+    await page.goto('/', { waitUntil: 'commit' });
     const boot = page.locator('#boot');
     await expect(boot).toBeVisible();
     await expect(page.locator('#boot-log')).toContainText('DANIEL');
@@ -60,7 +61,7 @@ test.describe('com animação', () => {
     await expect(boot).toBeHidden();
   });
 
-  test('assinatura válida mostra STAGE CLEAR; inválida não cobre a tela', async ({ page }) => {
+  test('assinatura válida carimba AUTÊNTICO; inválida não cobre a tela', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('#d-status')).toHaveText('Assinatura válida.');
     await page.locator('#d-key').fill('outro');
@@ -68,7 +69,7 @@ test.describe('com animação', () => {
     await expect(page.locator('#verdict')).not.toHaveClass(/show/);
     await page.locator('#d-key').fill('mene-mene-tequel-ufarsim');
     await expect(page.locator('#verdict')).toHaveClass(/show/);
-    await expect(page.locator('#verdict')).toHaveText('STAGE CLEAR');
+    await expect(page.locator('#verdict')).toHaveText('AUTÊNTICO');
   });
 });
 
@@ -98,7 +99,7 @@ test('código Konami cifra o lema em Atbash e desfaz', async ({ page }) => {
   };
   await konami();
   await expect(motto).toHaveText(/^Nvmv, Nvmv, Gvjfvo.*\(Jr 25:26\)$/);
-  await expect(page.locator('#hud-lives')).toHaveText('♥×30');
+  await expect(page.locator('#hud-lives')).toHaveText('×30');
   await expect(page.locator('.toast')).toContainText('Achou a cifra de Jeremias');
   await konami();
   await expect(motto).toHaveText('Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.');
@@ -114,7 +115,7 @@ test('conquista aparece uma vez só, e não pelo exemplo inicial', async ({ page
   await expect(page.locator('.toast')).toHaveCount(1);
 });
 
-test('placar: assinatura errada tira vida, a certa devolve e dá pontos', async ({ page }) => {
+test('placar: assinatura errada tira ingresso, a certa devolve e dá pontos', async ({ page }) => {
   await openApp(page);
   const lives = page.locator('#hud-lives');
   await expect(lives.locator('i:not(.lost)')).toHaveCount(3);
@@ -127,7 +128,7 @@ test('placar: assinatura errada tira vida, a certa devolve e dá pontos', async 
   await expect(page.locator('#hud-hi')).toHaveText('000600');
 });
 
-test('sem vidas aparece CONTINUE?', async ({ page }) => {
+test('sem ingressos aparece ESGOTADO', async ({ page }) => {
   await openApp(page);
   for (let i = 0; i < 3; i++) {
     await page.locator('#d-key').fill(`errado ${i}`);
@@ -135,11 +136,11 @@ test('sem vidas aparece CONTINUE?', async ({ page }) => {
     await page.locator('#d-key').fill('');
     await expect(page.locator('#d-status')).not.toHaveClass(/bad/);
   }
-  await expect(page.locator('#hud-lives')).toHaveText('CONTINUE?');
+  await expect(page.locator('#hud-lives')).toHaveText('ESGOTADO');
 });
 
-test('campo vazio pede INSERT TOKEN', async ({ page }) => {
+test('campo vazio avisa que não há token em cartaz', async ({ page }) => {
   await openApp(page);
   await page.locator('#d-token').fill('');
-  await expect(page.locator('#d-status')).toHaveText('INSERT TOKEN');
+  await expect(page.locator('#d-status')).toHaveText('SEM TOKEN EM CARTAZ');
 });

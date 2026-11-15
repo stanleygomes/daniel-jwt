@@ -1,4 +1,4 @@
-// Mapa de fases: cada parte do token é uma fase, e o leão atravessa as três.
+// Programa da sessão: cada parte do token é um ato, e o leão atravessa os três.
 
 import { $ } from '../dom.ts';
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#14121a">
+  <meta id="theme-color" name="theme-color" content="#EFE2C4">
   <title>Daniel · decifrador de JWT</title>
   <meta name="description" content="Decodifique, verifique e assine JWT direto no navegador. Nada sai da sua máquina.">
   <link rel="icon" href="/logo.svg" type="image/svg+xml">
@@ -20,72 +20,98 @@
   <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
+  <!-- Filtros da página: contorno desenhado à mão (só componentes cartoon) e cromática do tubo. -->
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="sketch" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="chroma" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+      <feOffset in="red" dx="0.6" result="red-shift"/>
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+      <feOffset in="blue" dx="-0.6" result="blue-shift"/>
+      <feBlend in="red-shift" in2="green" mode="screen" result="red-green"/>
+      <feBlend in="red-green" in2="blue-shift" mode="screen"/>
+    </filter>
+  </svg>
+
   <div id="boot" class="boot" aria-hidden="true">
-    <pre id="boot-log"></pre>
-    <p class="boot-skip">INSERT COIN</p>
+    <div class="tube">
+      <canvas id="boot-grain" class="tube-grain" width="160" height="100"></canvas>
+      <div class="tube-screen">
+        <span class="tube-card"></span>
+        <pre id="boot-log"></pre>
+        <p class="boot-skip">Sintonizando canal 539</p>
+      </div>
+    </div>
   </div>
-  <div id="verdict" class="verdict" aria-hidden="true"></div>
+  <div id="verdict" class="verdict" aria-hidden="true"><span id="verdict-stamp" class="verdict-stamp"></span></div>
   <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
 
   <header class="masthead">
     <div class="title">
       <p class="kicker">Decifrador de JWT · Babilônia, 539 a.C.</p>
       <h1 class="sign">DANIEL</h1>
+      <p id="motto" class="motto">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
     </div>
     <div class="side">
       <dl class="hud" aria-label="Placar">
-        <dt>1UP</dt><dd id="hud-score">000000</dd>
-        <dt>HI</dt><dd id="hud-hi">000000</dd>
-        <dt>Vidas</dt><dd id="hud-lives" class="lives"></dd>
+        <div><dt>Bilheteria</dt><dd id="hud-score">000000</dd></div>
+        <div><dt>Recorde</dt><dd id="hud-hi">000000</dd></div>
+        <div><dt>Ingressos</dt><dd id="hud-lives" class="lives"></dd></div>
       </dl>
-      <button id="theme" class="theme" type="button"></button>
+      <button id="theme" class="theme icon-only" type="button"></button>
     </div>
-    <p id="motto" class="board">Mene, Mene, Tequel: decifre seu JWT sem entregá-lo a ninguém.</p>
   </header>
 
-  <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-tab="decode" aria-selected="true"><span data-icon="decode"></span>Decifrar</button>
-    <button type="button" role="tab" data-tab="encode" aria-selected="false"><span data-icon="encode"></span>Selar</button>
+  <div class="tabs" role="tablist" aria-label="Modo">
+    <button type="button" role="tab" id="tab-decode" aria-controls="decode" data-tab="decode" aria-selected="true"><span data-icon="decode"></span>Decifrar</button>
+    <button type="button" role="tab" id="tab-encode" aria-controls="encode" data-tab="encode" aria-selected="false" tabindex="-1"><span data-icon="encode"></span>Selar</button>
   </div>
 
   <main>
-    <section id="decode" class="grid">
-      <div class="col">
+    <section id="decode" class="panel" role="tabpanel" aria-labelledby="tab-decode">
+      <div class="cell">
+        <p class="tag">entrada</p>
         <label for="d-token">Token</label>
         <div class="token-field">
           <pre id="d-token-paint" class="token-paint" aria-hidden="true"></pre>
-          <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off" placeholder="INSERT TOKEN ▶ cole um JWT aqui"></textarea>
+          <textarea id="d-token" rows="9" spellcheck="false" autocomplete="off" placeholder="Cole um JWT aqui"></textarea>
         </div>
         <p id="d-error" class="error" role="alert"></p>
         <label for="d-key" id="d-key-label">Segredo</label>
         <textarea id="d-key" rows="4" spellcheck="false" autocomplete="off"></textarea>
         <label class="check" id="d-b64-box" hidden><input type="checkbox" id="d-b64"> segredo em base64</label>
         <p id="d-status" class="status" role="status"></p>
-        <div class="map">
+        <div class="program">
           <ol id="d-route" class="route" aria-label="Partes do token">
-            <li class="stage part-0" data-stage="1"><b>Cabeçalho</b><small></small></li>
-            <li class="stage part-1" data-stage="2"><b>Conteúdo</b><small></small></li>
-            <li class="stage part-2" data-stage="3"><b>Assinatura</b><small></small></li>
+            <li class="stage part-0" data-stage="1"><span class="act">Ato I</span><b>Cabeçalho</b><small></small></li>
+            <li class="stage part-1" data-stage="2"><span class="act">Ato II</span><b>Conteúdo</b><small></small></li>
+            <li class="stage part-2" data-stage="3"><span class="act">Ato III</span><b>Assinatura</b><small></small></li>
           </ol>
           <span class="runner" aria-hidden="true"><span class="lion"></span></span>
         </div>
       </div>
-      <div class="col">
+      <div class="cell">
+        <p class="tag">leitura</p>
         <h2 class="part-0">Cabeçalho</h2>
-        <pre id="d-header"></pre>
+        <pre id="d-header" class="code"></pre>
         <h2 class="part-1">Conteúdo</h2>
-        <pre id="d-payload"></pre>
+        <pre id="d-payload" class="code"></pre>
         <div id="d-life" class="life" hidden>
           <span class="life-label">Vida</span>
           <span class="life-bar"><span></span></span>
           <span id="d-life-text" class="life-text"></span>
         </div>
-        <dl id="d-claims"></dl>
+        <dl id="d-claims" class="claims"></dl>
       </div>
     </section>
 
-    <section id="encode" class="grid" hidden>
-      <div class="col">
+    <section id="encode" class="panel" role="tabpanel" aria-labelledby="tab-encode" hidden>
+      <div class="cell">
+        <p class="tag">rascunho</p>
         <div class="alg-row">
           <label for="e-alg">Algoritmo</label>
           <select id="e-alg"></select>
@@ -105,36 +131,40 @@
           <textarea id="e-public" rows="5" spellcheck="false" readonly></textarea>
         </div>
       </div>
-      <div class="col">
+      <div class="cell">
+        <p class="tag">selado</p>
         <div class="token-head">
           <h2>Token</h2>
           <p class="score">Selos <b id="e-score">000000</b></p>
         </div>
-        <output id="e-token" for="e-header e-payload e-key"></output>
+        <output id="e-token" class="code" for="e-header e-payload e-key"></output>
         <p id="e-error" class="error" role="alert"></p>
         <div class="actions">
-          <button id="e-copy" type="button"><span data-icon="copy"></span>Copiar</button>
-          <button id="e-decode" class="ghost" type="button"><span data-icon="decode"></span>Decifrar este</button>
+          <button id="e-decode" type="button"><span data-icon="decode"></span>Decifrar este</button>
+          <button id="e-copy" class="primary" type="button"><span data-icon="copy"></span>Copiar</button>
         </div>
       </div>
     </section>
   </main>
 
   <aside class="ledger" aria-labelledby="ledger-title">
-    <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
-    <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
-    <ul>
+    <div class="cell">
+      <p class="tag">transparência</p>
+      <h2 id="ledger-title">“Os teus presentes fiquem contigo”</h2>
+      <p class="verse">Daniel 5:17. Este site lê seu token e não leva nada.</p>
+      <a class="repo" href="https://github.com/stanleygomes/daniel-jwt"><span data-icon="code"></span>Leia o código no GitHub →</a>
+    </div>
+    <ul class="cell">
       <li>Tudo roda no seu navegador, com a WebCrypto nativa. Sem servidor, API, cookie, analytics ou dependência em produção.</li>
       <li>A política de segurança (CSP) proíbe qualquer conexão: <code>connect-src 'none'</code>.</li>
       <li>Seu token e sua chave não são gravados em lugar nenhum (cookie, armazenamento do navegador ou URL). Fechou a aba, sumiu.</li>
       <li>Ao vivo: pacotes para fora <strong id="t-requests">0</strong> · bloqueios da CSP <strong id="t-blocked">0</strong></li>
     </ul>
-    <a class="repo" href="https://github.com/stanleygomes/daniel-jwt"><span data-icon="code"></span>Leia o código no GitHub →</a>
   </aside>
 
-  <div class="den" aria-hidden="true"><span class="lion-walk"><span class="lion"></span></span></div>
   <footer>
-    <p class="eol">★ Insert coin ★</p>
+    <div class="den" aria-hidden="true"><span class="lion"></span></div>
+    <p class="eol">Fim</p>
     <p>HS, RS, PS, ES e EdDSA. Código aberto, licença MIT.</p>
     <p><a id="build" href="https://github.com/stanleygomes/daniel-jwt/releases">releases</a></p>
   </footer>

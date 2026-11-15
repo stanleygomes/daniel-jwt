@@ -19,7 +19,7 @@ test('barra de vida mostra quanto resta até o exp', async ({ page }) => {
   await expect(page.locator('#d-life-text')).toHaveText(/^2\d%$/);
   const token = await sign({ alg: 'HS256' }, { iat: 0, exp: 1000 }, 's');
   await decodeWith(page, token, 's');
-  await expect(page.locator('#d-life-text')).toHaveText('K.O.');
+  await expect(page.locator('#d-life-text')).toHaveText('FIM');
   await decodeWith(page, await sign({ alg: 'HS256' }, payload, 's'), 's');
   await expect(page.locator('#d-life')).toBeHidden();
 });

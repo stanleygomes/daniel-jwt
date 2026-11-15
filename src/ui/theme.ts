@@ -2,6 +2,7 @@
 
 import { $ } from './dom.ts';
 import { unlock } from './fx/achievements.ts';
+import { degauss } from './fx/glitch.ts';
 import { type IconName, icon } from './icons.ts';
 
 type Theme = 'light' | 'dark';
@@ -35,7 +36,8 @@ const systemTheme = (): Theme => (matchMedia('(prefers-color-scheme: dark)').mat
 function apply(theme: Theme): void {
   document.documentElement.dataset.theme = theme;
   const button = $('theme');
-  button.replaceChildren(icon(NEXT[theme].icon, 26));
+  button.replaceChildren(icon(NEXT[theme].icon, 20));
+  $('theme-color').setAttribute('content', theme === 'dark' ? '#17110C' : '#EFE2C4');
   button.title = button.ariaLabel = NEXT[theme].label;
 }
 
@@ -45,6 +47,7 @@ export function setupTheme(): void {
   $('theme').addEventListener('click', () => {
     theme = theme === 'dark' ? 'light' : 'dark';
     apply(theme);
+    degauss();
     save(theme);
     if (theme === 'dark') unlock('night');
   });

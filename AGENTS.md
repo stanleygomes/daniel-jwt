@@ -21,12 +21,13 @@ src/ui/                 # tela
   tabs.ts               #   troca de aba
   theme.ts              #   botão de tema claro/escuro (lembra a escolha)
   icons.ts              #   ícones Lucide (só os usados; <span data-icon> no HTML)
-  fx/                   #   fliperama: abertura, letreiro de plaquinhas, mapa de fases, fim de fase,
-                        #   barra de vida (exp), placar/vidas/recorde, conquistas, Konami (Atbash), leão
+  fx/                   #   cinema anos 1930: abertura no tubo (CRT), máquina de escrever, programa em
+                        #   3 atos, carimbo AUTÊNTICO, barra de vida (exp), bilheteria/ingressos/recorde,
+                        #   telegramas (conquistas), defeito analógico, Konami (Atbash), leão (SVG)
                         #   (todos respeitam prefers-reduced-motion)
   transparency.ts       #   contador de rede e de bloqueios da CSP
   fonts.ts              #   Google Fonts via Fontsource (servidas pelo próprio site)
-  style.css             #   fliperama retrô (azulejo claro, fliperama escuro)
+  style.css             #   skill noemi-ui (creme de cartaz claro, sala de cinema escura)
 public/logo.svg         # ícone da aba (favicon): D em três partes, como o token
 public/og.jpg           # preview de link (1200×630); URL absoluta no <head> do index.html
 docs/screenshot.jpg     # print da tela no README
@@ -53,6 +54,14 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 - Mudou a tela? Teste em `e2e/` (o CI roda nos três navegadores; Trusted Types e clipboard
   só no Chromium).
 - Lint e formatação: Biome (faz o papel do ESLint + Prettier). `npm run format` corrige.
+
+## Visual (skill noemi-ui)
+
+- Neobrutalismo sóbrio + tempero de desenho animado dos anos 1930. Tokens no `:root` do
+  `style.css`; fontes Limelight, Bevan, Alegreya, Special Elite, Courier Prime.
+- Cartoon nesta tela (máx. 2 tipos): **carimbo** e **telegrama**. Nada de fonte pixel ou game.
+- Módulos já decididos: **CRT** só na abertura; **defeito analógico** só na assinatura
+  inválida (rasgo + estática) e na troca de tema (degauss). Sem som. Nada de animação `infinite`.
 
 ## Comandos
 

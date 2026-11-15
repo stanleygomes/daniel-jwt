@@ -1,4 +1,4 @@
-// Barra de vida do token (exp): esvazia ao vivo, como num jogo de luta.
+// Barra de vida do token (exp): esvazia ao vivo; acabou, aparece o FIM do filme.
 
 import type { Json } from '../../jwt/token.ts';
 import { lifeLeft } from '../claims.ts';
@@ -15,7 +15,7 @@ function paint(): void {
   const percent = Math.round(life * 100);
   box.dataset.level = life > 0.5 ? 'high' : life > 0.2 ? 'mid' : 'low';
   box.style.setProperty('--life', String(life));
-  $('d-life-text').textContent = life === 0 ? 'K.O.' : `${percent}%`;
+  $('d-life-text').textContent = life === 0 ? 'FIM' : `${percent}%`;
 }
 
 export function showLife(payload: Json | null): void {
