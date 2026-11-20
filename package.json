@@ -11,7 +11,8 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "test:e2e": "playwright test",
-    "lint:ci": "biome ci ."
+    "lint:ci": "biome ci .",
+    "check": "biome ci . && tsc && node --test test/*.test.ts && vite build"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.5",

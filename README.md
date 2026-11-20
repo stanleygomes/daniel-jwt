@@ -70,6 +70,7 @@ Node 24+.
 npm install
 npm run dev       # desenvolvimento
 npm test          # testes unitários (node --test, TypeScript direto)
+npm run check     # todas as validações: lint (Biome ci), tipos, unit e build
 npm run test:e2e  # site real no Chromium, Firefox e WebKit (Playwright)
 npm run lint      # Biome: lint + formatação (papel do ESLint + Prettier)
 npm run build     # tsc + vite build → dist/

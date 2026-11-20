@@ -66,7 +66,7 @@ vercel.json             # cabeçalhos de segurança (CSP); vite.config.ts reusa 
 ## Comandos
 
 ```bash
-npm run lint && npx tsc && npm test         # obrigatório antes de commitar
+npm run check                               # obrigatório antes de commitar: lint, tipos, unit e build
 npm run test:e2e                            # navegador (1ª vez: npx playwright install --with-deps)
 npm run format              # corrige formatação e imports (Biome)
 npm run preview             # confira a tela com a CSP de produção
